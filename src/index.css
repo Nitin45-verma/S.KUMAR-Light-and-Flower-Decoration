@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Playfair Display', 'Cormorant Garamond', 'Cinzel', serif;
+  --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
+  --font-sans: 'Poppins', 'Inter', sans-serif;
+  --font-hindi: 'Noto Serif Devanagari', 'Poppins', serif;
+
+  --color-gold-200: #fffaae;
+  --color-gold-300: #fff3a1;
+  --color-gold-400: #f5c451;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #b8860b;
+  --color-gold-700: #aa7c11;
+
+  --color-purple-950: #0d0518;
+  --color-purple-900: #1a0a2e;
+  --color-purple-800: #2e0a4a;
+  --color-purple-700: #4a1268;
+  --color-purple-600: #6b1d96;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0d0518;
+  color: #f1f5f9;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Images reset */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Gold Gradient Shimmer Text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #fff3a1 0%, #f5c451 25%, #d4af37 50%, #f5c451 75%, #fff3a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: goldShimmer 6s ease-in-out infinite;
+}
+
+.text-gold-solid {
+  color: #d4af37;
+}
+
+/* Gold Background Gradient */
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #f5c451 0%, #d4af37 50%, #b8860b 100%);
+}
+
+.bg-gold-gradient-hover:hover {
+  background: linear-gradient(135deg, #fff3a1 0%, #f5c451 50%, #d4af37 100%);
+}
+
+/* Deep Purple Card & Section Gradients */
+.bg-purple-dark-gradient {
+  background: linear-gradient(180deg, #1a0a2e 0%, #0d0518 100%);
+}
+
+.bg-purple-accent-gradient {
+  background: linear-gradient(135deg, #1a0a2e 0%, #2e0a4a 50%, #4a1268 100%);
+}
+
+.bg-hero-overlay {
+  background: radial-gradient(circle at center, rgba(46, 10, 74, 0.45) 0%, rgba(13, 5, 24, 0.85) 60%, rgba(13, 5, 24, 0.98) 100%);
+}
+
+/* Gold Glow Border & Hover Effects */
+.border-gold-glow {
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 20px -2px rgba(212, 175, 55, 0.15);
+  transition: all 0.4s ease;
+}
+
+.border-gold-glow:hover {
+  border-color: rgba(245, 196, 81, 0.8);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.35), 0 0 20px rgba(74, 18, 104, 0.5);
+}
+
+.gold-shadow {
+  box-shadow: 0 10px 30px -5px rgba(212, 175, 55, 0.3);
+}
+
+/* Keyframe Animations */
+@keyframes goldShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes goldPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(245, 196, 81, 0.8);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-gold-pulse {
+  animation: goldPulseGlow 3s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+/* Devanagari / Hindi font helper */
+.font-hindi {
+  font-family: 'Noto Serif Devanagari', 'Poppins', serif;
+}
+
+.font-serif-heading {
+  font-family: 'Playfair Display', 'Cormorant Garamond', 'Cinzel', serif;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(26, 10, 46, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.glass-nav {
+  background: rgba(13, 5, 24, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0518;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #d4af37, #4a1268);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #f5c451, #6b1d96);
+}
