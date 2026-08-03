@@ -35,7 +35,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden bg-[#0d0518]"
+      className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center pt-16 sm:pt-20 pb-8 sm:pb-10 overflow-hidden bg-[#0d0518]"
     >
       {/* Background Image with Parallax Scroll Shift */}
       <motion.div style={{ y: yBg, scale: scaleBg }} className="absolute inset-0 z-0">
