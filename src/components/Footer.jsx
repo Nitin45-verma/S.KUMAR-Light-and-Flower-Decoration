@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Phone, MapPin, ChevronRight } from 'lucide-react';
 import { businessInfo, services } from '../data/content';
+import Logo from './Logo';
 
 const Footer = () => {
   return (
@@ -12,21 +13,7 @@ const Footer = () => {
 
           {/* Col 1: Brand Info */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1.5px] flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.4)] shrink-0">
-                <div className="w-full h-full bg-[#0d0518] rounded-full flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-[#f5c451]" />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-extrabold font-serif-heading text-gold-gradient tracking-wider uppercase leading-none">
-                  S.KUMAR
-                </span>
-                <span className="text-[10px] tracking-wider text-slate-300 uppercase leading-tight font-sans">
-                  Light and Flower Decoration
-                </span>
-              </div>
-            </div>
+            <Logo size="large" />
 
             <p className="text-sm font-hindi text-slate-300 leading-relaxed max-w-md">
               "आपके हर खास मौके को बनाएं और भी खास, हमारी लाइटिंग से दें एक नई पहचान!"

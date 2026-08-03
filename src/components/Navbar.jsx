@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, Menu, X, Sparkles, ChevronRight } from 'lucide-react';
 import { businessInfo } from '../data/content';
+import Logo from './Logo';
 
 const navLinks = [
   { name: 'Home', href: '#hero' },
@@ -58,26 +59,14 @@ const Navbar = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'glass-nav py-3 border-b border-[#d4af37]/20 shadow-[0_10px_30px_rgba(13,5,24,0.8)]'
-          : 'bg-gradient-to-b from-[#0d0518]/90 to-transparent py-5'
+          ? 'glass-nav py-2 sm:py-3 border-b border-[#d4af37]/20 shadow-[0_10px_30px_rgba(13,5,24,0.8)]'
+          : 'bg-gradient-to-b from-[#0d0518]/90 to-transparent py-3 sm:py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#hero" className="flex items-center gap-2.5 group cursor-pointer">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#f5c451] to-[#b8860b] p-[1.5px] shadow-[0_0_15px_rgba(212,175,55,0.4)] group-hover:shadow-[0_0_25px_rgba(245,196,81,0.7)] transition-all duration-300 flex items-center justify-center shrink-0">
-            <div className="w-full h-full bg-[#0d0518] rounded-full flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-[#f5c451] animate-pulse" />
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl sm:text-2xl font-bold font-serif-heading tracking-wider text-gold-gradient uppercase leading-none">
-              S.KUMAR
-            </span>
-            <span className="text-[9px] sm:text-[10px] font-medium tracking-wider text-slate-200 uppercase leading-tight font-sans">
-              Light and Flower Decoration
-            </span>
-          </div>
+        <a href="#hero" className="flex items-center group cursor-pointer">
+          <Logo size="normal" />
         </a>
 
         {/* Desktop Navigation Links */}
@@ -160,14 +149,7 @@ const Navbar = () => {
             >
               <div>
                 <div className="flex items-center justify-between pb-6 border-b border-[#d4af37]/20">
-                  <div className="flex flex-col">
-                    <span className="text-xl font-bold font-serif-heading text-gold-gradient">
-                      S.KUMAR
-                    </span>
-                    <span className="text-[9px] tracking-wider text-slate-300">
-                      Light and Flower Decoration
-                    </span>
-                  </div>
+                  <Logo size="small" />
                   <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="p-2 rounded-full bg-[#2e0a4a] text-slate-300 hover:text-[#f5c451]"

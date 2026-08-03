@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Crown } from 'lucide-react';
 import { businessInfo } from '../data/content';
+import Logo from './Logo';
 
 const SplashScreen = ({ duration = 2500, onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -87,23 +88,13 @@ const SplashScreen = ({ duration = 2500, onComplete }) => {
             </motion.div>
 
             <motion.div
-              initial={{ scale: 0.4, opacity: 0, rotate: -10 }}
-              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              initial={{ scale: 0.4, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', damping: 18, stiffness: 200, delay: 0.3 }}
-              className="relative w-32 h-32 sm:w-40 sm:h-40 mb-6 flex items-center justify-center"
+              className="relative mb-6 flex items-center justify-center"
             >
-              <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#f5c451]/60 animate-spin-slow" />
-              <div className="absolute -inset-2 rounded-full bg-gold-gradient opacity-30 blur-xl animate-pulse" />
-
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-[#0d0518] border-2 border-[#d4af37] flex flex-col items-center justify-center p-3 shadow-[0_0_35px_rgba(212,175,55,0.5)]">
-                <Sparkles className="w-8 h-8 text-[#f5c451] animate-pulse" />
-                <span className="text-xl font-bold font-serif-heading text-gold-gradient mt-1 leading-none">
-                  S.KUMAR
-                </span>
-                <span className="text-[8px] tracking-widest text-slate-300 text-center">
-                  LIGHT & FLOWER
-                </span>
-              </div>
+              <div className="absolute -inset-6 rounded-full bg-gold-gradient opacity-20 blur-2xl animate-pulse" />
+              <Logo size="splash" />
             </motion.div>
 
             <motion.div

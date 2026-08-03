@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Image as ImageIcon, Sparkles, MapPin, Star } from 'lucide-react';
 import FairyLights from './FairyLights';
+import Logo from './Logo';
 import { businessInfo } from '../data/content';
 
 const Hero = () => {
@@ -66,21 +67,10 @@ const Hero = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-[#f5c451] animate-ping" />
           </motion.div>
 
-          {/* Main Headline: S.KUMAR */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-serif-heading tracking-wider uppercase leading-none text-gold-gradient drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]"
-          >
-            S.KUMAR
-          </motion.h1>
-
-          {/* Subheading: Light and Flower Decoration */}
-          <motion.h2
-            variants={itemVariants}
-            className="mt-2 text-xl sm:text-3xl md:text-4xl font-extrabold font-serif-heading text-slate-100 tracking-wide uppercase drop-shadow-md"
-          >
-            Light and Flower Decoration
-          </motion.h2>
+          {/* Grand Brand Logo Display */}
+          <motion.div variants={itemVariants} className="mb-4">
+            <Logo size="hero" />
+          </motion.div>
 
           {/* Subheading Location */}
           <motion.p
