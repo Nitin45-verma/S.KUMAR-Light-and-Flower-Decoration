@@ -15,12 +15,12 @@ const videoHighlightsData = [
   },
   {
     id: 'highlight-2',
-    title: 'दुल्हन एंट्री एवं फूलों की चादर',
-    titleEng: 'Grand Bridal Entry & Floral Canopy',
-    category: 'Bride Entry',
+    title: 'इमारत एवं गार्डन लाइटिंग डेकोरेशन',
+    titleEng: 'Building & Garden Light Decor',
+    category: 'Lighting',
     src: '/videos/highlight-2.mp4',
     rotation: 0,
-    desc: 'शाही दुल्हन एंट्री, फूलों की चादर, और कोल्ड पायरो स्पार्कल के साथ यादगार पल।'
+    desc: 'सुनहरी वार्म स्ट्रिंग लाइट्स और जगमगाती बिल्डिंग इल्यूमिनेशन डेकोरेशन की मनमोहक झलक।'
   },
   {
     id: 'highlight-3',
