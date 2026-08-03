@@ -7,6 +7,7 @@ import imgGallery5 from '../assets/gallery/gallery5.webp';
 import imgGallery7 from '../assets/gallery/gallery7.webp';
 import imgEntryReal from '../assets/gallery/entry_real_clean.webp';
 import imgLightsReal from '../assets/gallery/lights_real.webp';
+import imgDjReal from '../assets/gallery/dj_real.webp';
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const businessInfo = {
@@ -14,6 +15,7 @@ export const businessInfo = {
   shortName: "S.KUMAR",
   subTitle: "Light and Flower Decoration",
   plusCode: "QM5X+WP6",
+  pincode: "302029",
   address: "QM5X+WP6, Kishanpura at Khatipura, Jaipur, Rajasthan - 302029",
   shortLocation: "Khatipura, Jaipur",
   taglineHindi: "आपके हर खास मौके को बनाएं और भी खास, हमारी लाइटिंग से दें एक नई पहचान!",
@@ -90,7 +92,7 @@ export const services = [
     iconName: "Music",
     shortDesc: "पावरफुल बेस साउंड, डिस्को बीट्स, लेजर लाइट, फॉग मशीन और लाइव म्यूजिक सेटअप।",
     fullDesc: "Keep your guests dancing all night with high-output line array speakers, heavy bass subwoofers, RGB moving head lasers, and cold pyro sparklers.",
-    image: imgGallery4,
+    image: imgDjReal,
     features: [
       "High-Power Line Array Sound",
       "Dry Ice Fog & Smoke Effects",
@@ -173,24 +175,24 @@ export const galleryItems = [
   },
   {
     id: 5,
-    title: "Blue LED Building Illumination",
-    category: "Lighting",
-    image: imgGallery4,
-    desc: "ब्लू-पर्पल एलईडी लाइट्स से जगमगाती बिल्डिंग — नाइट सेलिब्रेशन के लिए शानदार लाइटिंग सेटअप।"
+    title: "Grand Truss DJ & Sound System Setup",
+    category: "DJ",
+    image: imgDjReal,
+    desc: "ट्रस फ्रेमिंग, लाइन-अरे स्पीकर्स, झूमर व लेजर बीम्स से सजा भव्य आउटडोर डीजे व साउंड सेटअप।"
   },
   {
     id: 6,
-    title: "Colorful Mandap with Bulb Canopy",
-    category: "Stage",
+    title: "Waterproof Canopy & Tent Light Setup",
+    category: "Tent",
     image: imgGallery5,
-    desc: "रंग-बिरंगे फूलों और वार्म बल्ब कैनोपी से सजा मंडप — गणेश पूजा व शादी के लिए आदर्श डेकोरेशन।"
+    desc: "वाटरप्रूफ टेंट, फैब्रिक सीलिंग, वार्म बल्ब कैनोपी व पिलर लाइटिंग सेट अप।"
   },
   {
     id: 7,
-    title: "Grand Floral Walkway & Chandelier Stage",
+    title: "Grand Floral Walkway & Bride Entry",
     category: "Bride Entry",
     image: imgEntryReal,
-    desc: "झूमरों से सजा भव्य फूलों का वॉकवे — रॉयल दुल्हन एंट्री के लिए परफेक्ट इल्यूमिनेटेड पाथवे।"
+    desc: "झूमरों व फूलों से सजा भव्य वॉकवे — रॉयल दुल्हन एंट्री के लिए परफेक्ट इल्यूमिनेटेड पाथवे।"
   },
   {
     id: 8,
@@ -198,34 +200,6 @@ export const galleryItems = [
     category: "Lighting",
     image: imgGallery7,
     desc: "सुनहरी वार्म स्ट्रिंग लाइट्स और ब्लू LED से जगमगाती इमारत — शादी और उत्सव के लिए शानदार लाइटिंग।"
-  },
-  {
-    id: 9,
-    title: "Royal Bride Entry Pathway",
-    category: "Bride Entry",
-    image: imgEntryReal,
-    desc: "फूलों की जगमगाती चादर और कोल्ड पायरो के साथ दुल्हन की शाही एंट्री।"
-  },
-  {
-    id: 10,
-    title: "Waterproof Canopy & Light Setup",
-    category: "Tent",
-    image: imgGallery5,
-    desc: "वाटरप्रूफ टेंट, फैब्रिक सीलिंग व पिलर लाइटिंग सेट अप।"
-  },
-  {
-    id: 11,
-    title: "High-Power DJ Party Lighting",
-    category: "DJ",
-    image: imgGallery4,
-    desc: "रंगीन लेजर बीम्स, मूविंग हेड्स और दमदार बेस साउंड - संगीत नाइट के लिए बेस्ट डीजे।"
-  },
-  {
-    id: 12,
-    title: "Vibrant Haldi Flower Mandap",
-    category: "Flowers",
-    image: imgGallery3,
-    desc: "ताजे गेंदे व ऑर्किड से सजी हल्दी व मेहंदी सेरेमनी डेकोरेशन।"
   }
 ];
 

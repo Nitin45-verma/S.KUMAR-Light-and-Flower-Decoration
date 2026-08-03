@@ -315,7 +315,7 @@ const Contact = () => {
               <MapPin className="w-5 h-5 text-[#f5c451]" />
               <span className="font-bold text-sm">Location: QM5X+WP6 Kishanpura at Khatipura, Rajasthan</span>
             </div>
-            <span className="text-xs text-[#f5c451] font-hindi">PIN - 302029</span>
+            <span className="text-xs text-[#f5c451] font-hindi">PIN - {businessInfo.pincode}</span>
           </div>
 
           <div className="w-full h-80 sm:h-96 relative bg-[#0d0518]">

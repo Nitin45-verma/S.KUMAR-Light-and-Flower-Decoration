@@ -29,7 +29,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[#0d0518]"
+      className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden bg-[#0d0518]"
     >
       {/* Background Image with Dark Purple Overlay */}
       <div className="absolute inset-0 z-0">
@@ -48,7 +48,7 @@ const Hero = () => {
       {/* Glowing Ambient Light Orbs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-gradient-to-tr from-[#f5c451]/20 via-[#4a1268]/40 to-transparent rounded-full blur-[100px] pointer-events-none z-10" />
 
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center my-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -58,59 +58,59 @@ const Hero = () => {
           {/* Top Location Badge */}
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1a0a2e]/90 border border-[#d4af37]/40 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.2)] mb-6"
+            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1a0a2e]/90 border border-[#d4af37]/40 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.2)] mb-3 sm:mb-4"
           >
-            <MapPin className="w-4 h-4 text-[#f5c451]" />
-            <span className="text-xs sm:text-sm font-semibold tracking-widest text-[#f5c451] uppercase">
+            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f5c451]" />
+            <span className="text-[11px] sm:text-xs font-semibold tracking-widest text-[#f5c451] uppercase">
               {businessInfo.shortLocation}
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-[#f5c451] animate-ping" />
           </motion.div>
 
           {/* Grand Brand Logo Display */}
-          <motion.div variants={itemVariants} className="mb-4">
+          <motion.div variants={itemVariants} className="mb-2 sm:mb-3">
             <Logo size="hero" />
           </motion.div>
 
           {/* Subheading Location */}
           <motion.p
             variants={itemVariants}
-            className="mt-3 text-xs sm:text-sm font-medium tracking-[0.25em] text-[#f5c451] uppercase font-sans flex items-center justify-center gap-2"
+            className="mt-1.5 text-[11px] sm:text-xs font-medium tracking-[0.2em] text-[#f5c451] uppercase font-sans flex items-center justify-center gap-2"
           >
-            <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#f5c451]" />
-            <span>KAPURWALA, JAIPUR</span>
-            <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#f5c451]" />
+            <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-r from-transparent to-[#f5c451]" />
+            <span>{businessInfo.shortLocation.toUpperCase()}</span>
+            <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-l from-transparent to-[#f5c451]" />
           </motion.p>
 
           {/* Hindi Tagline */}
-          <motion.div variants={itemVariants} className="mt-6 max-w-3xl">
-            <p className="text-lg sm:text-2xl font-hindi font-medium text-slate-100 leading-relaxed drop-shadow-md">
+          <motion.div variants={itemVariants} className="mt-3 sm:mt-4 max-w-2xl">
+            <p className="text-base sm:text-xl md:text-2xl font-hindi font-medium text-slate-100 leading-snug sm:leading-relaxed drop-shadow-md">
               "{businessInfo.taglineHindi}"
             </p>
-            <p className="mt-2 text-xs sm:text-sm text-slate-300 italic font-sans font-light max-w-2xl mx-auto">
+            <p className="mt-1 text-[11px] sm:text-xs text-slate-300 italic font-sans font-light max-w-xl mx-auto">
               "{businessInfo.taglineEnglish}"
             </p>
           </motion.div>
 
           {/* Star Accent */}
-          <motion.div variants={itemVariants} className="mt-8 flex items-center gap-3">
-            <span className="w-12 sm:w-20 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/60 to-[#d4af37]" />
-            <Star className="w-4 h-4 text-[#f5c451] fill-[#f5c451] animate-spin-slow" />
-            <span className="w-12 sm:w-20 h-[1px] bg-gradient-to-l from-transparent via-[#d4af37]/60 to-[#d4af37]" />
+          <motion.div variants={itemVariants} className="mt-3 sm:mt-4 flex items-center gap-3">
+            <span className="w-10 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/60 to-[#d4af37]" />
+            <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f5c451] fill-[#f5c451] animate-spin-slow" />
+            <span className="w-10 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-[#d4af37]/60 to-[#d4af37]" />
           </motion.div>
 
           {/* Dual CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
+            className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto"
           >
             <motion.a
               href={`tel:${businessInfo.phone}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-gold-gradient text-purple-950 font-bold text-base sm:text-lg shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:shadow-[0_0_45px_rgba(245,196,81,0.8)] transition-all duration-300"
+              className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-2.5 sm:py-3 rounded-full bg-gold-gradient text-purple-950 font-bold text-sm sm:text-base shadow-[0_0_25px_rgba(212,175,55,0.5)] hover:shadow-[0_0_35px_rgba(245,196,81,0.8)] transition-all duration-300"
             >
-              <Phone className="w-5 h-5 fill-purple-950" />
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5 fill-purple-950" />
               <span>Call Now 📞 {businessInfo.phone}</span>
             </motion.a>
 
@@ -118,9 +118,9 @@ const Hero = () => {
               href="#gallery"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-[#d4af37] text-[#f5c451] font-semibold text-base sm:text-lg bg-[#1a0a2e]/60 backdrop-blur-sm hover:bg-[#d4af37]/10 hover:border-[#f5c451] transition-all duration-300"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 sm:py-3 rounded-full border-2 border-[#d4af37] text-[#f5c451] font-semibold text-sm sm:text-base bg-[#1a0a2e]/60 backdrop-blur-sm hover:bg-[#d4af37]/10 hover:border-[#f5c451] transition-all duration-300"
             >
-              <ImageIcon className="w-5 h-5 text-[#f5c451]" />
+              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-[#f5c451]" />
               <span>View Gallery</span>
             </motion.a>
           </motion.div>
@@ -129,16 +129,16 @@ const Hero = () => {
 
       {/* Scroll indicator */}
       <motion.div
-        animate={{ y: [0, 10, 0] }}
+        animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20"
+        className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20"
       >
         <a
           href="#about"
-          className="w-10 h-10 rounded-full border border-[#d4af37]/40 bg-[#1a0a2e]/80 flex items-center justify-center text-[#f5c451] hover:border-[#f5c451] transition-colors"
+          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#d4af37]/40 bg-[#1a0a2e]/80 flex items-center justify-center text-[#f5c451] hover:border-[#f5c451] transition-colors"
           aria-label="Scroll to About section"
         >
-          <Sparkles className="w-5 h-5 animate-pulse" />
+          <Sparkles className="w-4 h-4 animate-pulse" />
         </a>
       </motion.div>
     </section>

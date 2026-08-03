@@ -112,7 +112,7 @@ const SplashScreen = ({ duration = 2500, onComplete }) => {
               </p>
 
               <p className="text-xs font-mono text-[#f5c451] tracking-widest uppercase mt-1">
-                Kapurwala, Jaipur
+                {businessInfo.shortLocation}
               </p>
             </motion.div>
 

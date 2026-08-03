@@ -3,11 +3,11 @@ import logoImg from '../assets/logo.png';
 
 const Logo = ({ className = "", size = "normal", showText = false }) => {
   const sizeClasses = {
-    small: "h-9 w-auto",
-    normal: "h-25 sm:h-14 w-25",
-    large: "h-16 sm:h-20 w-auto",
-    hero: "h-24 sm:h-32 md:h-40 w-auto",
-    splash: "h-28 sm:h-36 w-auto"
+    small: "h-8 w-8",
+    normal: "h-[60px] w-[60px]",
+    large: "h-14 sm:h-16 w-auto",
+    hero: "h-16 sm:h-24 md:h-28 w-auto",
+    splash: "h-18 sm:h-24 w-auto"
   };
 
   const currentSizeClass = sizeClasses[size] || sizeClasses.normal;

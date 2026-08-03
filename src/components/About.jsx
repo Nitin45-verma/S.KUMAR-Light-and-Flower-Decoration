@@ -87,27 +87,37 @@ const About = () => {
               <img
                 src={businessInfo.aboutImage}
                 alt="S.Kumar Light and Flower Decoration Event Setup Jaipur"
-                className="w-full h-[400px] sm:h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-[380px] sm:h-[460px] object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518] via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518]/30 via-transparent to-transparent pointer-events-none" />
 
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl glass-panel border border-[#d4af37]/30 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gold-gradient flex items-center justify-center text-purple-950">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-[#f5c451]">Kapurwala, Jaipur</h4>
-                    <p className="text-xs text-slate-300 font-hindi">वेडिंग लाइटिंग व फ्लावर डेकोरेशन</p>
-                  </div>
+              {/* Compact Floating Badges on Top of Image */}
+              <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[#0d0518]/85 backdrop-blur-md border border-[#d4af37]/40 flex items-center gap-2 shadow-lg">
+                <Award className="w-4 h-4 text-[#f5c451]" />
+                <span className="text-xs font-bold text-[#f5c451]">{businessInfo.shortLocation}</span>
+              </div>
+
+              <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-[#0d0518]/85 backdrop-blur-md border border-[#d4af37]/40 flex items-center gap-1 text-amber-400 text-xs shadow-lg">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                ))}
+              </div>
+            </div>
+
+            {/* Info Footer Below Image - Image is Now 100% Unobscured */}
+            <div className="mt-3 p-3.5 sm:p-4 rounded-xl glass-panel border border-[#d4af37]/30 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full bg-gold-gradient flex items-center justify-center text-purple-950">
+                  <Award className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-                <div className="flex items-center text-amber-400">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <Star className="w-4 h-4 fill-amber-400" />
+                <div className="min-w-0">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#f5c451] truncate">{businessInfo.shortLocation}</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-300 font-hindi truncate">वेडिंग लाइटिंग व फ्लावर डेकोरेशन</p>
                 </div>
+              </div>
+              <div className="flex items-center gap-1 text-amber-400 shrink-0 font-bold text-xs bg-[#0d0518]/60 px-2.5 py-1 rounded-full border border-[#d4af37]/20">
+                <span>5.0</span>
+                <Star className="w-3.5 h-3.5 fill-amber-400" />
               </div>
             </div>
 
@@ -123,8 +133,8 @@ const About = () => {
             className="lg:col-span-6 flex flex-col justify-center space-y-6"
           >
             <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#f5c451] uppercase tracking-wider">
-              <MapPin className="w-4 h-4" />
-              <span>Kapurwala, Pawaliya Road, Jaipur, Rajasthan</span>
+              <MapPin className="w-4 h-4 shrink-0" />
+              <span>{businessInfo.shortLocation}, Jaipur, Rajasthan</span>
             </div>
 
             <h3 className="text-2xl sm:text-3xl font-extrabold font-serif-heading text-slate-100 leading-snug">
@@ -136,7 +146,7 @@ const About = () => {
             </p>
 
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-hindi">
-              कपूरवाला, पवालिया रोड, जयपुर में स्थित एस. कुमार लाइट एंड फ्लावर डेकोरेशन - शादी, रिंग सेरेमनी, सगाई व सभी उत्सवों के लिए शाही लाइटिंग और ताजे फूलों की भव्य सजावट की सर्वोत्तम सेवा प्रदान करता है।
+              खातीपुरा, किशनपुरा, जयपुर में स्थित एस. कुमार लाइट एंड फ्लावर डेकोरेशन - शादी, रिंग सेरेमनी, सगाई व सभी उत्सवों के लिए शाही लाइटिंग और ताजे फूलों की भव्य सजावट की सर्वोत्तम सेवा प्रदान करता है।
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">

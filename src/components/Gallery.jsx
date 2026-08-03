@@ -7,9 +7,14 @@ const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedImage, setSelectedImage] = useState(null);
 
+  // Ensure each image appears only once in the gallery
+  const uniqueItems = Array.from(
+    new Map(galleryItems.map(item => [item.image, item])).values()
+  );
+
   const filteredItems = activeCategory === 'All'
-    ? galleryItems
-    : galleryItems.filter(item => item.category.toLowerCase() === activeCategory.toLowerCase());
+    ? uniqueItems
+    : uniqueItems.filter(item => item.category.toLowerCase() === activeCategory.toLowerCase());
 
   return (
     <section id="gallery" className="py-20 sm:py-28 bg-[#0d0518] relative overflow-hidden">
