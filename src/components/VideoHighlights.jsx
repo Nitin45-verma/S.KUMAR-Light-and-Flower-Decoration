@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Play, X, Loader2, Film, Phone, Volume2 } from 'lucide-react';
+import { Play, X, Loader2, Film, Phone, Volume2, VolumeX, Music } from 'lucide-react';
 import { businessInfo } from '../data/content';
 
 const videoHighlightsData = [
@@ -11,7 +11,10 @@ const videoHighlightsData = [
     category: 'Lighting & Stage',
     src: '/videos/highlight-1.mp4',
     rotation: 270, // Rotated 90 degrees further to make the NK logo perfectly straight
-    desc: 'रॉयल वेडिंग स्टेज, वार्म एंबियंत लाइटिंग और क्रिस्टल बैकड्रॉप सेटअप की मनमोहक झलक।'
+    desc: 'रॉयल वेडिंग स्टेज, वार्म एंबियंत लाइटिंग और क्रिस्टल बैकड्रॉप सेटअप की मनमोहक झलक।',
+    trendingSong: 'Kudmayi & Din Shagna Da (Royal Shehnai Mix)',
+    trendingTag: '🔥 Trending Royal Wedding Song',
+    audioSrc: '/audio/stage_wedding_song.wav'
   },
   {
     id: 'highlight-2',
@@ -20,7 +23,10 @@ const videoHighlightsData = [
     category: 'Lighting',
     src: '/videos/highlight-2.mp4',
     rotation: 0,
-    desc: 'सुनहरी वार्म स्ट्रिंग लाइट्स और जगमगाती बिल्डिंग इल्यूमिनेशन डेकोरेशन की मनमोहक झलक।'
+    desc: 'सुनहरी वार्म स्ट्रिंग लाइट्स और जगमगाती बिल्डिंग इल्यूमिनेशन डेकोरेशन की मनमोहक झलक।',
+    trendingSong: 'Shubhaarambh & Aaj Sajeya (Festive Lights Beats)',
+    trendingTag: '🔥 Trending Festival Light Song',
+    audioSrc: '/audio/lights_festive_song.wav'
   },
   {
     id: 'highlight-3',
@@ -29,7 +35,10 @@ const videoHighlightsData = [
     category: 'Tent & Flowers',
     src: '/videos/highlight-3.mp4',
     rotation: 0,
-    desc: 'वाटरप्रूफ लग्जरी टेंट, ताजे गेंदे व गुलाब की सजावट और शाही सीलिंग कैनोपी।'
+    desc: 'वाटरप्रूफ लग्जरी टेंट, ताजे गेंदे व गुलाब की सजावट और शाही सीलिंग कैनोपी।',
+    trendingSong: 'Rangisari & Navrai Majhi (Haldi Floral Mix)',
+    trendingTag: '🔥 Trending Haldi / Mehendi Beats',
+    audioSrc: '/audio/floral_haldi_song.wav'
   },
   {
     id: 'highlight-4',
@@ -38,15 +47,20 @@ const videoHighlightsData = [
     category: 'DJ & Sound',
     src: '/videos/highlight-4.mp4',
     rotation: 0,
-    desc: 'पावरफुल लाइन-एरे साउंड सिस्टम, मूविंग लेजर बीम और फॉग इफेक्ट के साथ धमाकेदार संगीत नाइट।'
+    desc: 'पावरफुल लाइन-एरे साउंड सिस्टम, मूविंग लेजर बीम और फॉग इफेक्ट के साथ धमाकेदार संगीत नाइट।',
+    trendingSong: 'Kala Chashma & Malhari (Heavy Bass Sangeet DJ Remix)',
+    trendingTag: '🔥 Trending Sangeet DJ Party Remix',
+    audioSrc: '/audio/dj_sangeet_song.wav'
   }
 ];
 
 const VideoHighlights = () => {
   const [activeVideo, setActiveVideo] = useState(null);
   const [isBuffering, setIsBuffering] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const sectionRef = useRef(null);
   const modalVideoRef = useRef(null);
+  const audioRef = useRef(null);
 
   const isInView = useInView(sectionRef, { once: true, margin: '200px 0px' });
 
@@ -192,8 +206,14 @@ const VideoHighlights = () => {
                   {video.category}
                 </div>
 
+                {/* Trending Song Badge */}
+                <div className="absolute bottom-4 left-4 right-4 z-10 px-3 py-1.5 rounded-xl bg-[#0d0518]/90 border border-[#d4af37]/30 text-[11px] font-hindi text-[#f5c451] flex items-center gap-2 backdrop-blur-md">
+                  <Music className="w-3.5 h-3.5 text-[#f5c451] shrink-0 animate-pulse" />
+                  <span className="truncate">{video.trendingSong}</span>
+                </div>
+
                 {/* Centered Glowing Gold Play Button */}
-                <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="absolute inset-0 flex items-center justify-center z-20 pb-6">
                   <motion.div
                     animate={{
                       scale: [1, 1.08, 1],
@@ -233,9 +253,11 @@ const VideoHighlights = () => {
 
                 <div className="mt-4 pt-3 border-t border-[#d4af37]/20 flex items-center justify-between text-xs text-[#f5c451] font-semibold">
                   <span className="inline-flex items-center gap-1.5 group-hover:text-amber-300 transition-colors">
-                    <Play className="w-3.5 h-3.5 fill-[#f5c451]" /> Watch Full Video
+                    <Play className="w-3.5 h-3.5 fill-[#f5c451]" /> Watch Video & Music
                   </span>
-                  <span className="text-slate-400 text-[10px]">HD • Sound ON</span>
+                  <span className="text-amber-300 text-[10px] flex items-center gap-1 font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" /> {video.trendingTag}
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -255,6 +277,17 @@ const VideoHighlights = () => {
             onClick={handleCloseModal}
             className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/95 backdrop-blur-md overflow-y-auto"
           >
+            {/* Synchronized Event Background Audio */}
+            {activeVideo.audioSrc && (
+              <audio
+                ref={audioRef}
+                src={activeVideo.audioSrc}
+                autoPlay
+                loop
+                muted={isMuted}
+              />
+            )}
+
             <motion.div
               key="video-modal-content"
               initial={{ opacity: 0, scale: 0.85, y: 30 }}
@@ -281,10 +314,28 @@ const VideoHighlights = () => {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2e0a4a] border border-[#d4af37]/30 text-[11px] text-[#f5c451]">
-                    <Volume2 className="w-3.5 h-3.5" />
-                    <span>Sound ON</span>
-                  </div>
+                  {/* Music Audio Toggle & Equalizer */}
+                  <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2e0a4a] border border-[#d4af37]/30 text-xs text-[#f5c451] hover:bg-[#4a1268] transition-colors cursor-pointer"
+                    title={isMuted ? "Unmute Music" : "Mute Music"}
+                  >
+                    {isMuted ? (
+                      <VolumeX className="w-4 h-4 text-red-400" />
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4 text-[#f5c451] animate-pulse" />
+                        <div className="flex items-end gap-0.5 h-3">
+                          <span className="w-0.5 h-full bg-[#f5c451] animate-bounce" />
+                          <span className="w-0.5 h-2/3 bg-[#f5c451] animate-bounce delay-100" />
+                          <span className="w-0.5 h-4/5 bg-[#f5c451] animate-bounce delay-200" />
+                        </div>
+                      </>
+                    )}
+                    <span className="hidden sm:inline font-bold">
+                      {isMuted ? 'Muted' : 'Music ON'}
+                    </span>
+                  </button>
 
                   <button
                     onClick={handleCloseModal}
@@ -303,7 +354,7 @@ const VideoHighlights = () => {
                   <div className="absolute inset-0 z-20 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4">
                     <Loader2 className="w-10 h-10 text-[#f5c451] animate-spin mb-2" />
                     <span className="text-sm font-hindi text-[#f5c451]">
-                      वीडियो लोड हो रहा है... (Loading Video)
+                      वीडियो एवं ट्रेंडिंग म्यूजिक लोड हो रहा है...
                     </span>
                   </div>
                 )}
@@ -329,12 +380,13 @@ const VideoHighlights = () => {
                 />
               </div>
 
-              {/* Modal Footer */}
+              {/* Modal Footer with Trending Music Tag */}
               <div className="p-4 sm:p-5 bg-[#0d0518] border-t border-[#d4af37]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex-1">
-                  <span className="text-[11px] font-semibold text-[#f5c451] uppercase tracking-widest block mb-1">
-                    {activeVideo.category} Highlight
-                  </span>
+                <div className="flex-1 min-w-0">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2e0a4a]/80 border border-[#d4af37]/30 text-xs font-bold text-[#f5c451] mb-2">
+                    <Music className="w-3.5 h-3.5 text-[#f5c451]" />
+                    <span className="truncate">{activeVideo.trendingTag}: {activeVideo.trendingSong}</span>
+                  </div>
                   <p className="text-xs sm:text-sm text-slate-300 font-hindi leading-relaxed">
                     {activeVideo.desc}
                   </p>
