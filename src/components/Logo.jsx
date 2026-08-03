@@ -5,9 +5,9 @@ const Logo = ({ className = "", size = "normal", showText = false }) => {
   const sizeClasses = {
     small: "h-8 w-8",
     normal: "h-[60px] w-[60px]",
-    large: "h-14 sm:h-16 w-auto",
-    hero: "h-16 sm:h-24 md:h-28 w-auto",
-    splash: "h-18 sm:h-24 w-auto"
+    large: "h-12 sm:h-14 w-auto",
+    hero: "h-14 sm:h-16 md:h-18 lg:h-20 w-auto",
+    splash: "h-16 sm:h-20 w-auto"
   };
 
   const currentSizeClass = sizeClasses[size] || sizeClasses.normal;
