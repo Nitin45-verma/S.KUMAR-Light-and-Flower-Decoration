@@ -4,7 +4,7 @@ import logoImg from '../assets/logo.png';
 const Logo = ({ className = "", size = "normal", showText = false }) => {
   const sizeClasses = {
     small: "h-8 w-auto object-contain",
-    normal: "h-[48px] w-auto object-contain",
+    normal: "h-[60px] w-[150px] object-contain",
     large: "h-16 w-auto object-contain",
     hero: "h-[200px] w-[300px] object-contain",
     splash: "h-24 w-auto object-contain"
