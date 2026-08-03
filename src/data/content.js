@@ -18,6 +18,7 @@ export const businessInfo = {
   pincode: "302029",
   address: "QM5X+WP6, Kishanpura at Khatipura, Jaipur, Rajasthan - 302029",
   shortLocation: "Khatipura, Jaipur",
+  websiteUrl: "https://skumar-decor.vercel.app/",
   taglineHindi: "आपके हर खास मौके को बनाएं और भी खास, हमारी लाइटिंग से दें एक नई पहचान!",
   taglineEnglish: "Make every special occasion even more special — give it a new identity with our lighting",
   phone: "9079689655",
