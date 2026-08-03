@@ -1,11 +1,17 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Phone, Image as ImageIcon, Sparkles, MapPin, Star } from 'lucide-react';
 import FairyLights from './FairyLights';
 import Logo from './Logo';
 import { businessInfo } from '../data/content';
 
 const Hero = () => {
+  const { scrollY } = useScroll();
+  const yBg = useTransform(scrollY, [0, 800], [0, 200]);
+  const scaleBg = useTransform(scrollY, [0, 800], [1, 1.18]);
+  const opacityText = useTransform(scrollY, [0, 550], [1, 0]);
+  const yText = useTransform(scrollY, [0, 550], [0, -80]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -31,8 +37,8 @@ const Hero = () => {
       id="hero"
       className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden bg-[#0d0518]"
     >
-      {/* Background Image with Dark Purple Overlay */}
-      <div className="absolute inset-0 z-0">
+      {/* Background Image with Parallax Scroll Shift */}
+      <motion.div style={{ y: yBg, scale: scaleBg }} className="absolute inset-0 z-0">
         <img
           src={businessInfo.heroBgImage}
           alt="S.Kumar Light and Flower Decoration Jaipur"
@@ -40,7 +46,7 @@ const Hero = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518] via-[#0d0518]/85 to-[#1a0a2e]/70" />
         <div className="absolute inset-0 bg-hero-overlay" />
-      </div>
+      </motion.div>
 
       {/* Canvas Fairy Lights Particle Animation */}
       <FairyLights />
@@ -48,7 +54,7 @@ const Hero = () => {
       {/* Glowing Ambient Light Orbs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-gradient-to-tr from-[#f5c451]/20 via-[#4a1268]/40 to-transparent rounded-full blur-[100px] pointer-events-none z-10" />
 
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center my-auto">
+      <motion.div style={{ opacity: opacityText, y: yText }} className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center my-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -125,7 +131,7 @@ const Hero = () => {
             </motion.a>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div

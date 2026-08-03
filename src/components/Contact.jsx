@@ -203,7 +203,7 @@ const Contact = () => {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          placeholder="e.g. Suresh Sharma"
+                          placeholder="e.g. Nitin Verma"
                           className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
                         />
                       </div>

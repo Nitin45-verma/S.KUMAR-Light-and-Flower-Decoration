@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import CursorGlow from './components/CursorGlow';
 import SplashScreen from './components/SplashScreen';
+import ScrollProgress from './components/ScrollProgress';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -14,8 +17,31 @@ import Footer from './components/Footer';
 import FloatingButtons from './components/FloatingButtons';
 
 function App() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0d0518] text-slate-100 font-sans selection:bg-[#d4af37] selection:text-[#0d0518] relative">
+      {/* Top Progress Bar & Scroll Meter */}
+      <ScrollProgress />
+
       {/* Golden Glowing Cursor Aura */}
       <CursorGlow />
 
