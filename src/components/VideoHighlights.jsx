@@ -363,6 +363,7 @@ const VideoHighlights = () => {
                   ref={modalVideoRef}
                   src={activeVideo.src}
                   autoPlay
+                  muted
                   controls
                   playsInline
                   preload="metadata"
@@ -375,7 +376,13 @@ const VideoHighlights = () => {
                   onWaiting={() => setIsBuffering(true)}
                   onLoadStart={() => setIsBuffering(true)}
                   onCanPlay={() => setIsBuffering(false)}
-                  onPlaying={() => setIsBuffering(false)}
+                  onPlaying={(e) => {
+                    setIsBuffering(false);
+                    e.target.muted = true;
+                  }}
+                  onVolumeChange={(e) => {
+                    e.target.muted = true;
+                  }}
                   onSeeked={() => setIsBuffering(false)}
                 />
               </div>
