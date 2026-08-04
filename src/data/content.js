@@ -1,4 +1,5 @@
 // ── Local Gallery & Asset Imports ───────────────────────────────────────────
+import imgBanner from '../assets/banner.webp';
 import imgGallery1 from '../assets/gallery/gallery1.webp';
 import imgGallery2 from '../assets/gallery/gallery2.webp';
 import imgGallery3 from '../assets/gallery/gallery3.webp';
@@ -27,7 +28,8 @@ export const businessInfo = {
   whatsappUrl: "https://wa.me/919079689655?text=Hello%20S.Kumar%20Light%20and%20Flower%20Decoration%2C%20I%20want%20to%20inquire%20about%20event%20decoration.",
   mapIframeSrc: "https://maps.google.com/maps?q=QM5X%2BWP6%20Kishanpura%20at%20Khatipura%2C%20Rajasthan&t=&z=16&ie=UTF8&iwloc=&output=embed",
   heroBgImage: imgLightsReal,
-  aboutImage: imgGallery1,
+  aboutImage: imgBanner,
+  bannerImage: imgBanner,
   stats: [
     { number: 200, suffix: "+", label: "Events Lit Up", labelHindi: "सफल इवेंट्स (Lit Up)" },
     { number: 15, suffix: "+", label: "Years Experience", labelHindi: "वर्षों का अनुभव" },

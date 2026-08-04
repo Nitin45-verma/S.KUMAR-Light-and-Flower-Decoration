@@ -86,8 +86,8 @@ const About = () => {
             <div className="relative rounded-2xl overflow-hidden border-2 border-[#d4af37]/40 shadow-[0_15px_40px_rgba(13,5,24,0.9)] group">
               <img
                 src={businessInfo.aboutImage}
-                alt="S.Kumar Light and Flower Decoration Event Setup Jaipur"
-                className="w-full h-[380px] sm:h-[460px] object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-105"
+                alt="S.Kumar Light and Flower Decoration Official Banner Jaipur"
+                className="w-full h-auto aspect-[2/1] object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518]/30 via-transparent to-transparent pointer-events-none" />
 

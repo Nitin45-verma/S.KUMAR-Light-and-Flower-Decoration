@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, MapPin, Calendar, User, MessageSquare, Send, Sparkles, CheckCircle2, Clock } from 'lucide-react';
+import { Phone, MapPin, Calendar, User, MessageSquare, Send, Sparkles, CheckCircle2, Clock, Check, MessageCircle } from 'lucide-react';
 import { businessInfo } from '../data/content';
+
+const serviceOptions = [
+  { id: 'Wedding Lighting', label: 'Wedding Lighting', emoji: '💡', hindi: 'वेडिंग लाइटिंग' },
+  { id: 'Flower Decoration', label: 'Flower Decoration', emoji: '🌸', hindi: 'फूलों की सजावट' },
+  { id: 'Stage Decoration', label: 'Stage Decoration', emoji: '🎪', hindi: 'स्टेज सजावट' },
+  { id: 'DJ System', label: 'DJ System', emoji: '🎧', hindi: 'डीजे सिस्टम' },
+  { id: 'Bride Entry', label: 'Bride Entry (Dulhan Entry)', emoji: '👰', hindi: 'दुल्हन एंट्री' },
+  { id: 'Tent & Light Setup', label: 'Tent & Light Setup', emoji: '⛺', hindi: 'टेंट व लाइटिंग' },
+  { id: 'Digital Wedding Card', label: 'Digital Wedding Card', emoji: '📱', hindi: 'डिजिटल वेडिंग कार्ड' }
+];
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     eventDate: '',
-    service: 'Wedding Lighting',
+    selectedServices: ['Wedding Lighting'],
     message: ''
   });
 
@@ -19,22 +29,63 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const toggleService = (serviceLabel) => {
+    setFormData((prev) => {
+      const exists = prev.selectedServices.includes(serviceLabel);
+      if (exists) {
+        return { ...prev, selectedServices: prev.selectedServices.filter((s) => s !== serviceLabel) };
+      } else {
+        return { ...prev, selectedServices: [...prev.selectedServices, serviceLabel] };
+      }
+    });
+  };
+
+  const handleSelectAllServices = () => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedServices: serviceOptions.map((s) => s.label)
+    }));
+  };
+
+  const handleClearServices = () => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedServices: []
+    }));
+  };
+
+  const handleReset = () => {
+    setSubmitted(false);
+    setFormData({
+      name: '',
+      phone: '',
+      eventDate: '',
+      selectedServices: ['Wedding Lighting'],
+      message: ''
+    });
+  };
+
+  const getWhatsAppUrl = () => {
+    const servicesText = formData.selectedServices.length > 0
+      ? formData.selectedServices.map(s => `• ${s}`).join('\n')
+      : 'Not specified';
+    const text = `Hello S.Kumar Light and Flower Decoration,\n\nI want to book an event with the following details:\n\n👤 Name: ${formData.name}\n📞 Phone: ${formData.phone}\n📅 Date: ${formData.eventDate || 'Not specified'}\n✨ Services Interested:\n${servicesText}\n${formData.message ? `\n💬 Message: ${formData.message}` : ''}`;
+    return `https://wa.me/${businessInfo.whatsappNumber}?text=${encodeURIComponent(text)}`;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.phone) return;
+    if (formData.selectedServices.length === 0) {
+      alert('कृपया कम से कम एक सेवा (Service) जरूर चुनें!');
+      return;
+    }
 
     setIsSubmitting(true);
 
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-      setFormData({
-        name: '',
-        phone: '',
-        eventDate: '',
-        service: 'Wedding Lighting',
-        message: ''
-      });
     }, 1200);
   };
 
@@ -162,7 +213,7 @@ const Contact = () => {
                 </h3>
               </div>
               <p className="text-xs text-slate-300 font-hindi mb-6">
-                अपनी पसंद का इवेंट चुनकर डिटेल भरें, हम तुरंत आपसे संपर्क करेंगे।
+                अपनी पसंद की एक या एक से अधिक सेवाएं चुनकर डिटेल भरें, हम तुरंत आपसे संपर्क करेंगे।
               </p>
 
               <AnimatePresence>
@@ -171,97 +222,162 @@ const Contact = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
-                    className="p-8 rounded-2xl bg-[#2e0a4a] border border-[#f5c451] text-center space-y-4"
+                    className="p-8 rounded-2xl bg-[#2e0a4a] border border-[#f5c451] text-center space-y-5 shadow-xl"
                   >
                     <div className="w-16 h-16 rounded-full bg-gold-gradient mx-auto flex items-center justify-center text-purple-950">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <h4 className="text-xl font-bold font-hindi text-gold-gradient">
-                      धन्यवाद! आपका मैसेज प्राप्त हो गया है।
+                      धन्यवाद! आपका बुकिंग निवेदन प्राप्त हो गया है।
                     </h4>
                     <p className="text-sm text-slate-200">
                       S.Kumar Light and Flower Decoration की टीम शीघ्र ही आपसे <strong>{businessInfo.phone}</strong> पर संपर्क करेगी।
                     </p>
-                    <button
-                      onClick={() => setSubmitted(false)}
-                      className="px-6 py-2 rounded-full bg-[#1a0a2e] text-[#f5c451] text-xs font-semibold border border-[#d4af37]/40 hover:bg-[#d4af37]/20"
-                    >
-                      Book Another Inquiry
-                    </button>
+
+                    {formData.selectedServices.length > 0 && (
+                      <div className="p-4 bg-[#1a0a2e] rounded-2xl border border-[#d4af37]/30 text-left text-xs space-y-2 max-w-md mx-auto">
+                        <span className="text-[#f5c451] font-semibold block">Selected Services ({formData.selectedServices.length}):</span>
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {formData.selectedServices.map((srv, idx) => (
+                            <span key={idx} className="bg-[#2e0a4a] text-slate-200 px-3 py-1 rounded-full border border-[#d4af37]/40 text-xs flex items-center gap-1">
+                              <Check className="w-3.5 h-3.5 text-[#f5c451]" />
+                              {srv}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                      <a
+                        href={getWhatsAppUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg transition-all transform hover:scale-105"
+                      >
+                        <MessageCircle className="w-4 h-4 fill-white" />
+                        <span>Send Details on WhatsApp</span>
+                      </a>
+                      <button
+                        onClick={handleReset}
+                        className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#1a0a2e] text-[#f5c451] text-xs font-semibold border border-[#d4af37]/40 hover:bg-[#d4af37]/20 transition-colors"
+                      >
+                        Book Another Inquiry
+                      </button>
+                    </div>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
-                    <div>
-                      <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
-                        Your Name / आपका नाम *
-                      </label>
-                      <div className="relative">
-                        <User className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                        <input
-                          type="text"
-                          name="name"
-                          required
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="e.g. Nitin Verma"
-                          className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
-                        Phone Number / मोबाइल नंबर *
-                      </label>
-                      <div className="relative">
-                        <Phone className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                        <input
-                          type="tel"
-                          name="phone"
-                          required
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder="e.g. 9079689655"
-                          className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
-                        />
-                      </div>
-                    </div>
-
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
-                          Event Date / तारीख
+                          Your Name / आपका नाम *
                         </label>
                         <div className="relative">
-                          <Calendar className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                          <User className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                           <input
-                            type="date"
-                            name="eventDate"
-                            value={formData.eventDate}
+                            type="text"
+                            name="name"
+                            required
+                            value={formData.name}
                             onChange={handleChange}
-                            className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
+                            placeholder="e.g. Nitin Verma"
+                            className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
                           />
                         </div>
                       </div>
 
                       <div>
                         <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
-                          Service Interested
+                          Phone Number / मोबाइल नंबर *
                         </label>
-                        <select
-                          name="service"
-                          value={formData.service}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
-                        >
-                          <option value="Wedding Lighting">💡 Wedding Lighting</option>
-                          <option value="Flower Decoration">🌸 Flower Decoration</option>
-                          <option value="Stage Decoration">🎪 Stage Decoration</option>
-                          <option value="DJ System">🎧 DJ System</option>
-                          <option value="Bride Entry">👰 Bride Entry (Dulhan Entry)</option>
-                          <option value="Tent & Light Setup">⛺ Tent & Light Setup</option>
-                        </select>
+                        <div className="relative">
+                          <Phone className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="tel"
+                            name="phone"
+                            required
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="e.g. 9079689655"
+                            className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
+                          />
+                        </div>
                       </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
+                        Event Date / तारीख
+                      </label>
+                      <div className="relative">
+                        <Calendar className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type="date"
+                          name="eventDate"
+                          value={formData.eventDate}
+                          onChange={handleChange}
+                          className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#1a0a2e]/90 border border-[#d4af37]/30 text-slate-100 focus:outline-none focus:border-[#f5c451] transition-colors text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Multi-Select Service Interested */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider">
+                          Services Interested / सेवाएं चुनें *
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-semibold text-[#f5c451] bg-[#d4af37]/15 px-2.5 py-0.5 rounded-full border border-[#d4af37]/30">
+                            {formData.selectedServices.length} Selected (एक से अधिक चुनें)
+                          </span>
+                          <button
+                            type="button"
+                            onClick={formData.selectedServices.length === serviceOptions.length ? handleClearServices : handleSelectAllServices}
+                            className="text-[11px] text-[#f5c451] hover:underline transition-colors font-medium"
+                          >
+                            {formData.selectedServices.length === serviceOptions.length ? 'Clear All' : 'Select All'}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {serviceOptions.map((srv) => {
+                          const isSelected = formData.selectedServices.includes(srv.label);
+                          return (
+                            <button
+                              key={srv.id}
+                              type="button"
+                              onClick={() => toggleService(srv.label)}
+                              className={`flex items-center gap-2.5 px-3.5 py-3 rounded-xl border text-left text-xs font-medium transition-all cursor-pointer relative overflow-hidden ${
+                                isSelected
+                                  ? 'bg-gradient-to-r from-[#3e125c] to-[#2e0a4a] border-[#f5c451] text-white shadow-[0_0_15px_rgba(245,196,81,0.25)] scale-[1.01]'
+                                  : 'bg-[#1a0a2e]/90 border-[#d4af37]/30 text-slate-300 hover:border-[#f5c451]/60 hover:bg-[#280c48]'
+                              }`}
+                            >
+                              <span className="text-lg shrink-0">{srv.emoji}</span>
+                              <div className="flex-1 min-w-0">
+                                <div className="font-semibold text-slate-100 text-xs truncate">{srv.label}</div>
+                                <div className="text-[10px] text-slate-400 truncate">{srv.hindi}</div>
+                              </div>
+                              <div
+                                className={`w-4 h-4 rounded flex items-center justify-center shrink-0 border transition-all ${
+                                  isSelected ? 'bg-gold-gradient border-[#f5c451] text-purple-950 font-bold' : 'border-slate-500'
+                                }`}
+                              >
+                                {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {formData.selectedServices.length === 0 && (
+                        <p className="text-xs text-rose-400 mt-2 font-hindi flex items-center gap-1">
+                          <span>⚠️ कृपया कम से कम एक सेवा अवश्य चुनें! (Select at least 1 service)</span>
+                        </p>
+                      )}
                     </div>
 
                     <div>

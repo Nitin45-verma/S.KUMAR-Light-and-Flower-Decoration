@@ -4,7 +4,7 @@
   --font-serif: 'Playfair Display', 'Cormorant Garamond', 'Cinzel', serif;
   --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
   --font-sans: 'Poppins', 'Inter', sans-serif;
-  --font-hindi: 'Noto Serif Devanagari', 'Poppins', serif;
+  --font-hindi: 'Mukta', 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Poppins', sans-serif;
 
   --color-gold-200: #fffaae;
   --color-gold-300: #fff3a1;
@@ -131,7 +131,8 @@ img {
 
 /* Devanagari / Hindi font helper */
 .font-hindi {
-  font-family: 'Noto Serif Devanagari', 'Poppins', serif;
+  font-family: 'Mukta', 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Poppins', sans-serif;
+  font-feature-settings: "liga" 1, "kern" 1;
 }
 
 .font-serif-heading {
