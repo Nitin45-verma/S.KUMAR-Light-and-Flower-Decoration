@@ -76,7 +76,17 @@ const Footer = () => {
 
               <div className="flex items-start gap-2 text-slate-300">
                 <MapPin className="w-4 h-4 text-[#f5c451] shrink-0 mt-0.5" />
-                <span>{businessInfo.address}</span>
+                <a
+                  href={businessInfo.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#f5c451] transition-colors group flex flex-col"
+                >
+                  <span>{businessInfo.address}</span>
+                  <span className="text-[11px] text-[#f5c451] underline opacity-80 group-hover:opacity-100 mt-0.5">
+                    Google Maps पर लोकेशन देखें →
+                  </span>
+                </a>
               </div>
             </div>
           </div>

@@ -132,10 +132,15 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="lg:col-span-6 flex flex-col justify-center space-y-6"
           >
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#f5c451] uppercase tracking-wider">
-              <MapPin className="w-4 h-4 shrink-0" />
-              <span>{businessInfo.shortLocation}, Jaipur, Rajasthan</span>
-            </div>
+            <a
+              href={businessInfo.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-[#f5c451] hover:text-slate-100 uppercase tracking-wider transition-colors cursor-pointer group w-fit"
+            >
+              <MapPin className="w-4 h-4 shrink-0 group-hover:scale-110 transition-transform" />
+              <span className="underline decoration-[#f5c451]/50 underline-offset-4">{businessInfo.shortLocation}, Jaipur, Rajasthan</span>
+            </a>
 
             <h3 className="text-2xl sm:text-3xl font-extrabold font-serif-heading text-slate-100 leading-snug">
               Specialists in Wedding Lighting & Fresh Flower Decoration in Jaipur

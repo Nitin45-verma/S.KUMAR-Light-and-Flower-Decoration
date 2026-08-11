@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, MapPin, Calendar, User, MessageSquare, Send, Sparkles, CheckCircle2, Clock, Check, MessageCircle } from 'lucide-react';
+import { Phone, MapPin, Calendar, User, MessageSquare, Send, Sparkles, CheckCircle2, Clock, Check, MessageCircle, Navigation, ExternalLink } from 'lucide-react';
 import { businessInfo } from '../data/content';
 
 const serviceOptions = [
@@ -156,25 +156,37 @@ const Contact = () => {
               </div>
             </a>
 
-            {/* Address Card */}
-            <div className="p-6 rounded-2xl bg-[#0d0518]/90 border border-[#d4af37]/30 glass-panel">
+            {/* Clickable Address & Location Card */}
+            <a
+              href={businessInfo.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-6 rounded-2xl bg-[#0d0518]/90 border border-[#d4af37]/30 hover:border-[#f5c451] glass-panel card-hover-glow transition-all group"
+            >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#2e0a4a] border border-[#d4af37]/30 flex items-center justify-center text-[#f5c451] shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-[#2e0a4a] border border-[#d4af37]/30 flex items-center justify-center text-[#f5c451] group-hover:scale-110 transition-transform shrink-0">
                   <MapPin className="w-6 h-6" />
                 </div>
-                <div>
-                  <h4 className="text-base font-bold text-slate-100 uppercase tracking-wide">
-                    Address & Plus Code
-                  </h4>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <h4 className="text-base font-bold text-slate-100 uppercase tracking-wide">
+                      Address & Google Map Location
+                    </h4>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#f5c451] bg-[#d4af37]/15 px-2.5 py-0.5 rounded-full border border-[#d4af37]/30 group-hover:bg-[#f5c451] group-hover:text-purple-950 transition-colors">
+                      <Navigation className="w-3 h-3" />
+                      <span>Open Map</span>
+                    </span>
+                  </div>
                   <p className="text-sm font-semibold text-[#f5c451] mt-1 leading-snug">
                     {businessInfo.address}
                   </p>
-                  <p className="text-xs text-slate-300 font-hindi mt-1.5">
-                    किशनपुरा, खातीपुरा, वैशाली नगर व संपूर्ण जयपुर क्षेत्र
+                  <p className="text-xs text-slate-300 font-hindi mt-1.5 flex items-center gap-1">
+                    <span>किशनपुरा, खातीपुरा, वैशाली नगर व संपूर्ण जयपुर (गूगल मैप्स पर देखने के लिए क्लिक करें)</span>
+                    <ExternalLink className="w-3 h-3 text-[#f5c451] shrink-0" />
                   </p>
                 </div>
               </div>
-            </div>
+            </a>
 
             {/* Working Hours */}
             <div className="p-6 rounded-2xl bg-[#0d0518]/90 border border-[#d4af37]/30 glass-panel">
@@ -426,18 +438,39 @@ const Contact = () => {
           transition={{ duration: 0.7 }}
           className="mt-16 rounded-3xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl glass-panel"
         >
-          <div className="p-4 bg-[#0d0518] border-b border-[#d4af37]/20 flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2 text-slate-200">
-              <MapPin className="w-5 h-5 text-[#f5c451]" />
-              <span className="font-bold text-sm">Location: QM5X+WP6 Kishanpura at Khatipura, Rajasthan</span>
+          <div className="p-4 sm:p-5 bg-[#0d0518] border-b border-[#d4af37]/20 flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3 text-slate-200">
+              <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1.5px] shrink-0">
+                <div className="w-full h-full bg-[#0d0518] rounded-full flex items-center justify-center text-[#f5c451]">
+                  <MapPin className="w-5 h-5 text-[#f5c451]" />
+                </div>
+              </div>
+              <div>
+                <span className="font-bold text-sm sm:text-base text-gold-gradient block">
+                  S.Kumar Light And Flower Decoration
+                </span>
+                <span className="text-xs text-slate-300 block">
+                  QM5X+WP6, Kishanpura at Khatipura, Jaipur, Rajasthan - {businessInfo.pincode}
+                </span>
+              </div>
             </div>
-            <span className="text-xs text-[#f5c451] font-hindi">PIN - {businessInfo.pincode}</span>
+
+            <a
+              href={businessInfo.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gold-gradient text-purple-950 font-bold text-xs shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_25px_rgba(245,196,81,0.7)] transition-all duration-300 transform hover:scale-105"
+            >
+              <Navigation className="w-4 h-4 fill-purple-950" />
+              <span>Get Directions on Google Maps</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
 
           <div className="w-full h-80 sm:h-96 relative bg-[#0d0518]">
             <iframe
               src={businessInfo.mapIframeSrc}
-              title="S.Kumar Light and Flower Decoration Location Map QM5X+WP6 Kishanpura at Khatipura Rajasthan"
+              title="S.Kumar Light and Flower Decoration Google Maps Location"
               width="100%"
               height="100%"
               style={{ border: 0, filter: 'contrast(1.1) opacity(0.9)' }}
