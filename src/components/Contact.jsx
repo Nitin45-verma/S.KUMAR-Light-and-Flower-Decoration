@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, MapPin, Calendar, User, MessageSquare, Send, Sparkles, CheckCircle2, Clock, Check, MessageCircle, Navigation, ExternalLink } from 'lucide-react';
 import { businessInfo } from '../data/content';
+import AnimatedMap from './AnimatedMap';
 
 const serviceOptions = [
   { id: 'Wedding Lighting', label: 'Wedding Lighting', emoji: '💡', hindi: 'वेडिंग लाइटिंग' },
@@ -430,56 +431,8 @@ const Contact = () => {
           </motion.div>
         </div>
 
-        {/* Map Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mt-16 rounded-3xl overflow-hidden border-2 border-[#d4af37]/30 shadow-2xl glass-panel"
-        >
-          <div className="p-4 sm:p-5 bg-[#0d0518] border-b border-[#d4af37]/20 flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-3 text-slate-200">
-              <div className="w-10 h-10 rounded-full bg-gold-gradient p-[1.5px] shrink-0">
-                <div className="w-full h-full bg-[#0d0518] rounded-full flex items-center justify-center text-[#f5c451]">
-                  <MapPin className="w-5 h-5 text-[#f5c451]" />
-                </div>
-              </div>
-              <div>
-                <span className="font-bold text-sm sm:text-base text-gold-gradient block">
-                  S.Kumar Light And Flower Decoration
-                </span>
-                <span className="text-xs text-slate-300 block">
-                  QM5X+WP6, Kishanpura at Khatipura, Jaipur, Rajasthan - {businessInfo.pincode}
-                </span>
-              </div>
-            </div>
-
-            <a
-              href={businessInfo.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gold-gradient text-purple-950 font-bold text-xs shadow-[0_0_15px_rgba(212,175,55,0.4)] hover:shadow-[0_0_25px_rgba(245,196,81,0.7)] transition-all duration-300 transform hover:scale-105"
-            >
-              <Navigation className="w-4 h-4 fill-purple-950" />
-              <span>Get Directions on Google Maps</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          <div className="w-full h-80 sm:h-96 relative bg-[#0d0518]">
-            <iframe
-              src={businessInfo.mapIframeSrc}
-              title="S.Kumar Light and Flower Decoration Google Maps Location"
-              width="100%"
-              height="100%"
-              style={{ border: 0, filter: 'contrast(1.1) opacity(0.9)' }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-        </motion.div>
+        {/* Animated Map Section */}
+        <AnimatedMap />
       </div>
     </section>
   );
