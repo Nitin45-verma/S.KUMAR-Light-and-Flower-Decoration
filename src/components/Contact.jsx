@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, MapPin, Calendar, User, MessageSquare, Send, Sparkles, CheckCircle2, Clock, Check, MessageCircle, Navigation, ExternalLink } from 'lucide-react';
 import { businessInfo } from '../data/content';
-import AnimatedMap from './AnimatedMap';
+
+const AnimatedMap = lazy(() => import('./AnimatedMap'));
 
 const serviceOptions = [
   { id: 'Wedding Lighting', label: 'Wedding Lighting', emoji: '💡', hindi: 'वेडिंग लाइटिंग' },
@@ -432,7 +433,9 @@ const Contact = () => {
         </div>
 
         {/* Animated Map Section */}
-        <AnimatedMap />
+        <Suspense fallback={<div className="mt-16 h-[350px] bg-[#0a0a14] rounded-3xl border border-[#d4af37]/20 animate-pulse" />}>
+          <AnimatedMap />
+        </Suspense>
       </div>
     </section>
   );

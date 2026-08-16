@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { ArrowUp, Sparkles } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
 
 const ScrollProgress = () => {
   const { scrollYProgress } = useScroll();

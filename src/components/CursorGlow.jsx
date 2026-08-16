@@ -19,7 +19,21 @@ const CursorGlow = () => {
       return;
     }
 
-    setIsVisible(true);
+    const initCursor = () => {
+      setIsVisible(true);
+    };
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(initCursor, { timeout: 1000 });
+      return () => window.cancelIdleCallback(idleId);
+    } else {
+      const timerId = setTimeout(initCursor, 500);
+      return () => clearTimeout(timerId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
 
     const handleMouseMove = (e) => {
       mouseX.set(e.clientX);
@@ -49,7 +63,7 @@ const CursorGlow = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseover', handleMouseOver);
     };
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, isVisible]);
 
   if (!isVisible) return null;
 

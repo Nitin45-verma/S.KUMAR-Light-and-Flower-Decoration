@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Crown } from 'lucide-react';
+import { Crown } from 'lucide-react';
 import { businessInfo } from '../data/content';
 import Logo from './Logo';
 
@@ -51,26 +51,15 @@ const SplashScreen = ({ duration = 2500, onComplete }) => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#4a1268]/40 rounded-full blur-[100px] pointer-events-none" />
 
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(18)].map((_, i) => (
-              <motion.div
+            {[...Array(6)].map((_, i) => (
+              <div
                 key={i}
-                initial={{
-                  x: `${Math.random() * 100}%`,
-                  y: '100vh',
-                  opacity: 0,
-                  scale: Math.random() * 0.6 + 0.4,
+                style={{
+                  top: `${(i * 18 + 10) % 90}%`,
+                  left: `${(i * 27 + 15) % 90}%`,
+                  animationDelay: `${i * 0.4}s`,
                 }}
-                animate={{
-                  y: '-10vh',
-                  opacity: [0, 0.9, 0],
-                }}
-                transition={{
-                  duration: Math.random() * 2 + 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 1.5,
-                  ease: 'easeOut',
-                }}
-                className="absolute w-2 h-2 rounded-full bg-[#fff3a1] shadow-[0_0_12px_#f5c451]"
+                className="absolute w-2 h-2 rounded-full bg-[#fff3a1] shadow-[0_0_12px_#f5c451] animate-pulse"
               />
             ))}
           </div>

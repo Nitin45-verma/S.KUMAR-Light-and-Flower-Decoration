@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Phone, Image as ImageIcon, Sparkles, MapPin, Star } from 'lucide-react';
-import FairyLights from './FairyLights';
 import Logo from './Logo';
 import { businessInfo } from '../data/content';
+
+const FairyLights = lazy(() => import('./FairyLights'));
 
 const Hero = () => {
   const { scrollY } = useScroll();
@@ -17,18 +18,18 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: 0.05,
+        delayChildren: 0.02,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
@@ -42,6 +43,11 @@ const Hero = () => {
         <img
           src={businessInfo.heroBgImage}
           alt="S.Kumar Light and Flower Decoration Jaipur"
+          width={1920}
+          height={1080}
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
           className="w-full h-full object-cover object-center filter brightness-75 transition-transform duration-10000 hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518] via-[#0d0518]/85 to-[#1a0a2e]/70" />
@@ -49,7 +55,9 @@ const Hero = () => {
       </motion.div>
 
       {/* Canvas Fairy Lights Particle Animation */}
-      <FairyLights />
+      <Suspense fallback={null}>
+        <FairyLights />
+      </Suspense>
 
       {/* Glowing Ambient Light Orbs */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-gradient-to-tr from-[#f5c451]/20 via-[#4a1268]/40 to-transparent rounded-full blur-[100px] pointer-events-none z-10" />

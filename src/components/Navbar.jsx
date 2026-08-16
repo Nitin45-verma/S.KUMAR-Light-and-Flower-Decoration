@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Menu, X, Sparkles, ChevronRight } from 'lucide-react';
+import { Phone, Menu, X, ChevronRight } from 'lucide-react';
 import { businessInfo } from '../data/content';
 import Logo from './Logo';
 

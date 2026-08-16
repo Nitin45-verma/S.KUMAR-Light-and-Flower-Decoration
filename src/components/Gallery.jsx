@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ZoomIn, Phone, Filter } from 'lucide-react';
+import { Sparkles, X, ZoomIn, Phone } from 'lucide-react';
 import { galleryCategories, galleryItems, businessInfo } from '../data/content';
 
 const Gallery = () => {
@@ -102,6 +102,10 @@ const Gallery = () => {
                 <img
                   src={item.image}
                   alt={`${item.title} - S.Kumar Light Decoration`}
+                  width={600}
+                  height={400}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter brightness-95 group-hover:brightness-105"
                 />
 
@@ -163,6 +167,10 @@ const Gallery = () => {
                   <img
                     src={selectedImage.image}
                     alt={selectedImage.title}
+                    width={800}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-gold-gradient text-purple-950 text-xs font-bold uppercase">

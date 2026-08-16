@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Phone, MapPin, ChevronRight } from 'lucide-react';
+import { Phone, MapPin, ChevronRight } from 'lucide-react';
 import { businessInfo, services } from '../data/content';
 import Logo from './Logo';
 

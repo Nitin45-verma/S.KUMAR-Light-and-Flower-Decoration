@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
-import CursorGlow from './components/CursorGlow';
-import SplashScreen from './components/SplashScreen';
-import ScrollProgress from './components/ScrollProgress';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import DigitalWeddingCard from './components/DigitalWeddingCard';
-import Gallery from './components/Gallery';
-import VideoHighlights from './components/VideoHighlights';
-import WhyUs from './components/WhyUs';
-import Testimonials from './components/Testimonials';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import FloatingButtons from './components/FloatingButtons';
+
+// Below-the-fold components code-split for minimal initial bundle size
+const CursorGlow = lazy(() => import('./components/CursorGlow'));
+const SplashScreen = lazy(() => import('./components/SplashScreen'));
+const ScrollProgress = lazy(() => import('./components/ScrollProgress'));
+const About = lazy(() => import('./components/About'));
+const Services = lazy(() => import('./components/Services'));
+const DigitalWeddingCard = lazy(() => import('./components/DigitalWeddingCard'));
+const Gallery = lazy(() => import('./components/Gallery'));
+const VideoHighlights = lazy(() => import('./components/VideoHighlights'));
+const WhyUs = lazy(() => import('./components/WhyUs'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+const FloatingButtons = lazy(() => import('./components/FloatingButtons'));
 
 function App() {
   useEffect(() => {
@@ -40,36 +42,33 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#0d0518] text-slate-100 font-sans selection:bg-[#d4af37] selection:text-[#0d0518] relative">
-      {/* Top Progress Bar & Scroll Meter */}
-      <ScrollProgress />
+      <Suspense fallback={null}>
+        <ScrollProgress />
+        <CursorGlow />
+        <SplashScreen duration={2500} />
+      </Suspense>
 
-      {/* Golden Glowing Cursor Aura */}
-      <CursorGlow />
-
-      {/* 2.5s Full Screen Royal Splash Animation */}
-      <SplashScreen duration={2500} />
-
-      {/* Sticky Header Navbar */}
+      {/* Sticky Header Navbar & Instant Hero Render */}
       <Navbar />
 
-      {/* Main Content Sections */}
       <main>
         <Hero />
-        <About />
-        <Services />
-        <DigitalWeddingCard />
-        <Gallery />
-        <VideoHighlights />
-        <WhyUs />
-        <Testimonials />
-        <Contact />
+        <Suspense fallback={<div className="min-h-[300px] bg-[#0d0518]" />}>
+          <About />
+          <Services />
+          <DigitalWeddingCard />
+          <Gallery />
+          <VideoHighlights />
+          <WhyUs />
+          <Testimonials />
+          <Contact />
+        </Suspense>
       </main>
 
-      {/* Royal Footer */}
-      <Footer />
-
-      {/* Floating Action Buttons */}
-      <FloatingButtons />
+      <Suspense fallback={null}>
+        <Footer />
+        <FloatingButtons />
+      </Suspense>
     </div>
   );
 }

@@ -74,6 +74,10 @@ const Services = () => {
                     <img
                       src={service.image}
                       alt={`${service.title} - S.Kumar Light Decoration Khatipura Jaipur`}
+                      width={600}
+                      height={400}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518] via-[#0d0518]/40 to-transparent" />

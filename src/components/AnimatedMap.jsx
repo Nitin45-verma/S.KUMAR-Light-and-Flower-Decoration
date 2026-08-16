@@ -46,14 +46,13 @@ const AnimatedMap = () => {
     };
   }, [isInView, prefersReducedMotion]);
 
-  // Pre-generate star field positions so they stay stable across renders
+  // Pre-generate reduced star field positions (10 stars for minimal DOM overhead)
   const stars = useMemo(() => {
-    return [...Array(40)].map((_, i) => ({
+    return [...Array(10)].map((_, i) => ({
       id: i,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      duration: 1.5 + Math.random() * 2,
-      delay: Math.random() * 2,
+      top: `${(i * 23 + 12) % 100}%`,
+      left: `${(i * 37 + 15) % 100}%`,
+      delay: (i * 0.3) % 2,
     }));
   }, []);
 
@@ -197,12 +196,10 @@ const AnimatedMap = () => {
                 {/* Stars background */}
                 <div className="absolute inset-0">
                   {stars.map((star) => (
-                    <motion.div
+                    <div
                       key={star.id}
-                      className="absolute w-[2px] h-[2px] bg-white rounded-full"
-                      style={{ top: star.top, left: star.left }}
-                      animate={{ opacity: [0.2, 1, 0.2] }}
-                      transition={{ duration: star.duration, repeat: Infinity, delay: star.delay }}
+                      className="absolute w-[2px] h-[2px] bg-white rounded-full animate-pulse"
+                      style={{ top: star.top, left: star.left, animationDelay: `${star.delay}s` }}
                     />
                   ))}
                 </div>
