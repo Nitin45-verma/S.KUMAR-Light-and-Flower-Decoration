@@ -40,6 +40,7 @@ const FloatingButtons = () => {
 
         <a
           href={`tel:${businessInfo.phone}`}
+          aria-label={`Call S.Kumar Light and Flower Decoration at ${businessInfo.phone}`}
           className="flex-1 max-w-[200px] flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-gold-gradient text-purple-950 font-bold text-sm shadow-[0_0_15px_rgba(212,175,55,0.5)] active:scale-95 transition-transform"
         >
           <Phone className="w-4 h-4 fill-purple-950" />

@@ -119,33 +119,38 @@ const Testimonials = () => {
         {/* Carousel Navigation Controls & Dots */}
         <div className="mt-8 flex items-center justify-between">
           <button
+            type="button"
             onClick={handlePrev}
-            className="p-3 rounded-full bg-[#1a0a2e] border border-[#d4af37]/30 text-slate-200 hover:text-[#f5c451] hover:border-[#f5c451] transition-all"
-            aria-label="Previous review"
+            className="p-3 rounded-full bg-[#1a0a2e] border border-[#d4af37]/30 text-slate-200 hover:text-[#f5c451] hover:border-[#f5c451] transition-all cursor-pointer"
+            aria-label="Previous testimonial review"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
           {/* Dots */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" role="tablist" aria-label="Testimonial slides">
             {testimonials.map((_, idx) => (
               <button
                 key={idx}
+                type="button"
+                role="tab"
+                aria-selected={currentIndex === idx}
                 onClick={() => setCurrentIndex(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                   currentIndex === idx
                     ? 'w-8 bg-gold-gradient shadow-[0_0_10px_rgba(245,196,81,0.6)]'
                     : 'w-2.5 bg-[#2e0a4a] hover:bg-[#d4af37]/50'
                 }`}
-                aria-label={`Go to slide ${idx + 1}`}
+                aria-label={`Go to testimonial slide ${idx + 1}`}
               />
             ))}
           </div>
 
           <button
+            type="button"
             onClick={handleNext}
-            className="p-3 rounded-full bg-[#1a0a2e] border border-[#d4af37]/30 text-slate-200 hover:text-[#f5c451] hover:border-[#f5c451] transition-all"
-            aria-label="Next review"
+            className="p-3 rounded-full bg-[#1a0a2e] border border-[#d4af37]/30 text-slate-200 hover:text-[#f5c451] hover:border-[#f5c451] transition-all cursor-pointer"
+            aria-label="Next testimonial review"
           >
             <ChevronRight className="w-5 h-5" />
           </button>

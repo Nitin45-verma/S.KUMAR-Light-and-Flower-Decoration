@@ -81,9 +81,12 @@ const Hero = () => {
             <span className="w-1.5 h-1.5 rounded-full bg-[#f5c451] animate-ping" />
           </motion.div>
 
-          {/* Grand Brand Logo Display */}
-          <motion.div variants={itemVariants} className="mb-2 sm:mb-3">
+          {/* Grand Brand Logo Display & Primary Heading */}
+          <motion.div variants={itemVariants} className="mb-2 sm:mb-3 flex flex-col items-center">
             <Logo size="hero" />
+            <h1 className="sr-only">
+              {businessInfo.name} - Premium Wedding Lighting & Flower Decoration in Khatipura, Jaipur
+            </h1>
           </motion.div>
 
           {/* Subheading Location */}

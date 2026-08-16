@@ -62,12 +62,18 @@ const Gallery = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 mb-12"
+          role="tablist"
+          aria-label="Gallery category filters"
         >
           {galleryCategories.map((category) => {
             const isActive = activeCategory === category;
             return (
               <button
                 key={category}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Filter gallery by ${category}`}
                 onClick={() => setActiveCategory(category)}
                 className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   isActive
@@ -96,6 +102,15 @@ const Gallery = () => {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
                 onClick={() => setSelectedImage(item)}
+                role="button"
+                tabIndex={0}
+                aria-label={`View details of ${item.title} - ${item.category}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedImage(item);
+                  }
+                }}
                 className="group relative rounded-2xl overflow-hidden border border-[#d4af37]/30 bg-[#1a0a2e] cursor-pointer card-hover-glow h-72 sm:h-80"
               >
                 {/* Image */}
@@ -156,7 +171,9 @@ const Gallery = () => {
               >
                 {/* Close Button */}
                 <button
+                  type="button"
                   onClick={() => setSelectedImage(null)}
+                  aria-label="Close image lightbox"
                   className="absolute top-4 right-4 z-20 p-2 rounded-full bg-[#0d0518]/80 text-slate-200 hover:text-[#f5c451] border border-[#d4af37]/40 transition-colors"
                 >
                   <X className="w-5 h-5" />

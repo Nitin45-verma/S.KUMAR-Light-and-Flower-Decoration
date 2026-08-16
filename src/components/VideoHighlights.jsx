@@ -176,6 +176,15 @@ const VideoHighlights = () => {
               whileHover={{ scale: 1.02, y: -4 }}
               transition={{ duration: 0.3 }}
               onClick={() => handleOpenModal(video)}
+              role="button"
+              tabIndex={0}
+              aria-label={`Watch ${video.title} video highlight`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleOpenModal(video);
+                }
+              }}
               className="group relative rounded-2xl overflow-hidden bg-[#0d0518] border border-[#d4af37]/30 shadow-[0_10px_35px_rgba(13,5,24,0.8)] cursor-pointer hover:border-[#f5c451] card-hover-glow transition-all duration-300 flex flex-col justify-between"
             >
               {/* Video Thumbnail Preview */}
@@ -316,7 +325,9 @@ const VideoHighlights = () => {
                 <div className="flex items-center gap-2 shrink-0">
                   {/* Music Audio Toggle & Equalizer */}
                   <button
+                    type="button"
                     onClick={() => setIsMuted(!isMuted)}
+                    aria-label={isMuted ? "Unmute event music audio" : "Mute event music audio"}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#2e0a4a] border border-[#d4af37]/30 text-xs text-[#f5c451] hover:bg-[#4a1268] transition-colors cursor-pointer"
                     title={isMuted ? "Unmute Music" : "Mute Music"}
                   >
@@ -338,9 +349,10 @@ const VideoHighlights = () => {
                   </button>
 
                   <button
+                    type="button"
                     onClick={handleCloseModal}
                     title="Close Video"
-                    aria-label="Close Video"
+                    aria-label="Close video modal"
                     className="p-2.5 rounded-full bg-[#0d0518] text-[#f5c451] hover:bg-[#2e0a4a] border border-[#d4af37]/40 transition-colors cursor-pointer"
                   >
                     <X className="w-5 h-5" />

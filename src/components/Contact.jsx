@@ -284,12 +284,13 @@ const Contact = () => {
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
+                        <label htmlFor="form-name" className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
                           Your Name / आपका नाम *
                         </label>
                         <div className="relative">
                           <User className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                           <input
+                            id="form-name"
                             type="text"
                             name="name"
                             required
@@ -302,12 +303,13 @@ const Contact = () => {
                       </div>
 
                       <div>
-                        <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
+                        <label htmlFor="form-phone" className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
                           Phone Number / मोबाइल नंबर *
                         </label>
                         <div className="relative">
                           <Phone className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                           <input
+                            id="form-phone"
                             type="tel"
                             name="phone"
                             required
@@ -321,12 +323,13 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
+                      <label htmlFor="form-event-date" className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
                         Event Date / तारीख
                       </label>
                       <div className="relative">
                         <Calendar className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                         <input
+                          id="form-event-date"
                           type="date"
                           name="eventDate"
                           value={formData.eventDate}
@@ -339,9 +342,9 @@ const Contact = () => {
                     {/* Multi-Select Service Interested */}
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider">
+                        <span className="block text-xs font-medium text-slate-300 uppercase tracking-wider">
                           Services Interested / सेवाएं चुनें *
-                        </label>
+                        </span>
                         <div className="flex items-center gap-2">
                           <span className="text-[11px] font-semibold text-[#f5c451] bg-[#d4af37]/15 px-2.5 py-0.5 rounded-full border border-[#d4af37]/30">
                             {formData.selectedServices.length} Selected (एक से अधिक चुनें)
@@ -349,20 +352,24 @@ const Contact = () => {
                           <button
                             type="button"
                             onClick={formData.selectedServices.length === serviceOptions.length ? handleClearServices : handleSelectAllServices}
-                            className="text-[11px] text-[#f5c451] hover:underline transition-colors font-medium"
+                            aria-label={formData.selectedServices.length === serviceOptions.length ? "Deselect all services" : "Select all services"}
+                            className="text-[11px] text-[#f5c451] hover:underline transition-colors font-medium cursor-pointer"
                           >
                             {formData.selectedServices.length === serviceOptions.length ? 'Clear All' : 'Select All'}
                           </button>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5" role="group" aria-label="Select services">
                         {serviceOptions.map((srv) => {
                           const isSelected = formData.selectedServices.includes(srv.label);
                           return (
                             <button
                               key={srv.id}
                               type="button"
+                              role="checkbox"
+                              aria-checked={isSelected}
+                              aria-label={`Service option: ${srv.label}`}
                               onClick={() => toggleService(srv.label)}
                               className={`flex items-center gap-2.5 px-3.5 py-3 rounded-xl border text-left text-xs font-medium transition-all cursor-pointer relative overflow-hidden ${
                                 isSelected
@@ -395,12 +402,13 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
+                      <label htmlFor="form-message" className="block text-xs font-medium text-slate-300 uppercase mb-1.5">
                         Additional Message / विशेष मांग
                       </label>
                       <div className="relative">
                         <MessageSquare className="w-5 h-5 text-slate-400 absolute left-3.5 top-3.5" />
                         <textarea
+                          id="form-message"
                           name="message"
                           rows="3"
                           value={formData.message}

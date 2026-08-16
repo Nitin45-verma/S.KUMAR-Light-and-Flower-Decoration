@@ -118,10 +118,12 @@ const AnimatedMap = () => {
 
           {/* View Mode Switcher Buttons */}
           <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-            <div className="bg-[#1a0a2e] p-1 rounded-2xl border border-[#d4af37]/30 flex items-center gap-1 text-xs">
+            <div className="bg-[#1a0a2e] p-1 rounded-2xl border border-[#d4af37]/30 flex items-center gap-1 text-xs" role="group" aria-label="Map view mode options">
               <button
                 type="button"
                 onClick={() => setMapMode('roadmap')}
+                aria-label="Switch to map mode"
+                aria-pressed={mapMode === 'roadmap'}
                 className={`px-3 py-1.5 rounded-xl font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
                   mapMode === 'roadmap'
                     ? 'bg-gold-gradient text-purple-950 font-bold shadow-md'
@@ -135,6 +137,8 @@ const AnimatedMap = () => {
               <button
                 type="button"
                 onClick={() => setMapMode('satellite')}
+                aria-label="Switch to satellite mode"
+                aria-pressed={mapMode === 'satellite'}
                 className={`px-3 py-1.5 rounded-xl font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
                   mapMode === 'satellite'
                     ? 'bg-gold-gradient text-purple-950 font-bold shadow-md'
@@ -148,6 +152,8 @@ const AnimatedMap = () => {
               <button
                 type="button"
                 onClick={() => setMapMode('hybrid')}
+                aria-label="Switch to 3D hybrid mode"
+                aria-pressed={mapMode === 'hybrid'}
                 className={`px-3 py-1.5 rounded-xl font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
                   mapMode === 'hybrid'
                     ? 'bg-gold-gradient text-purple-950 font-bold shadow-md'
@@ -163,6 +169,7 @@ const AnimatedMap = () => {
             <button
               type="button"
               onClick={() => setIsFullscreen(true)}
+              aria-label="Expand map to fullscreen"
               className="p-2.5 rounded-2xl bg-[#1a0a2e] border border-[#d4af37]/30 text-[#f5c451] hover:bg-[#2e0a4a] hover:border-[#f5c451] transition-all cursor-pointer shadow-md"
               title="Expand Fullscreen Map"
             >
@@ -393,6 +400,7 @@ const AnimatedMap = () => {
                 <button
                   type="button"
                   onClick={() => setIsFullscreen(false)}
+                  aria-label="Close fullscreen map"
                   className="p-2 rounded-full bg-[#1a0a2e] border border-[#d4af37]/40 text-[#f5c451] hover:bg-[#2e0a4a] cursor-pointer"
                 >
                   <Minimize2 className="w-5 h-5" />

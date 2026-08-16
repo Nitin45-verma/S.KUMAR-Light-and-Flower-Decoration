@@ -66,12 +66,12 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#hero" className="flex items-center group cursor-pointer">
+        <a href="#hero" aria-label="S.KUMAR Light & Flower Decoration Home" className="flex items-center group cursor-pointer">
           <Logo size="normal" />
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <nav aria-label="Main Navigation" className="hidden md:flex items-center space-x-1 lg:space-x-2">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.substring(1);
             return (
@@ -101,6 +101,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           <motion.a
             href={`tel:${businessInfo.phone}`}
+            aria-label={`Call S.Kumar Light and Flower Decoration at ${businessInfo.phone}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gold-gradient text-purple-950 font-bold text-sm shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(245,196,81,0.7)] transition-all duration-300"
@@ -115,14 +116,15 @@ const Navbar = () => {
           <a
             href={`tel:${businessInfo.phone}`}
             className="p-2 rounded-full bg-gold-gradient text-purple-950 shadow-[0_0_12px_rgba(212,175,55,0.4)]"
-            aria-label="Call S.Kumar Light and Flower Decoration"
+            aria-label={`Call S.Kumar Light and Flower Decoration at ${businessInfo.phone}`}
           >
             <Phone className="w-4 h-4 fill-purple-950" />
           </a>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg text-slate-200 hover:text-[#f5c451] focus:outline-none"
-            aria-label="Toggle Navigation Menu"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
