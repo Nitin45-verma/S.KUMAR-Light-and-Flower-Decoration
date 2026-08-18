@@ -2,10 +2,17 @@
 
 @theme {
   --font-serif: 'Playfair Display', 'Cormorant Garamond', 'Cinzel', serif;
-  --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
+  --font-display: 'Playfair Display', 'Cormorant Garamond', serif;
   --font-sans: 'Poppins', 'Inter', sans-serif;
-  --font-hindi: 'Mukta', 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Poppins', sans-serif;
+  --font-body: 'Poppins', 'Inter', sans-serif;
+  --font-hindi: 'Mukta', 'Noto Sans Devanagari', 'Noto Serif Devanagari', sans-serif;
 
+  --color-midnight: #0d0518;
+  --color-midnight-card: #190a2d;
+  --color-midnight-border: rgba(212, 175, 55, 0.2);
+  --color-midnight-hover: #260f42;
+
+  --color-gold: #d4af37;
   --color-gold-200: #fffaae;
   --color-gold-300: #fff3a1;
   --color-gold-400: #f5c451;
@@ -18,11 +25,23 @@
   --color-purple-800: #2e0a4a;
   --color-purple-700: #4a1268;
   --color-purple-600: #6b1d96;
+
+  --font-size-display-xl: clamp(3.5rem, 8vw, 7rem);
+  --font-size-display-lg: clamp(2.75rem, 6vw, 5rem);
+  --font-size-h1: clamp(2.25rem, 4.5vw, 3.5rem);
+  --font-size-h2: clamp(1.875rem, 3.5vw, 2.75rem);
+  --font-size-h3: clamp(1.5rem, 2.5vw, 2rem);
+  --font-size-h4: clamp(1.25rem, 2vw, 1.5rem);
+  --font-size-body-lg: clamp(1.125rem, 1.5vw, 1.25rem);
+  --font-size-body: 1rem;
+  --font-size-body-sm: 0.875rem;
+  --font-size-label: 0.75rem;
 }
 
 html {
   overflow-x: hidden;
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
@@ -33,19 +52,81 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Images reset */
+/* Custom Cursor Body Class (only fine pointer devices) */
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
 img {
   max-width: 100%;
   height: auto;
 }
 
+/* Card Radial Spotlight Overlay */
+.card-spotlight {
+  position: relative;
+}
+.card-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 175, 55, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.card-spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Glassmorphism Cards & Panels */
+.glass-panel {
+  background: rgba(26, 10, 46, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+}
+
+.glass-card {
+  background: rgba(25, 10, 45, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.glass-card-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-hover:hover {
+  background: rgba(38, 15, 66, 0.85);
+  border-color: rgba(245, 196, 81, 0.5);
+  box-shadow: 0 15px 35px -5px rgba(212, 175, 55, 0.25), 0 0 20px rgba(107, 29, 150, 0.3);
+  transform: translateY(-5px);
+}
+
 /* Gold Gradient Shimmer Text */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #fff3a1 0%, #f5c451 25%, #d4af37 50%, #f5c451 75%, #fff3a1 100%);
+  background: linear-gradient(135deg, #fff3a1 0%, #f5c451 30%, #d4af37 60%, #b8860b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.text-gold-shimmer {
+  background: linear-gradient(90deg, #d4af37 0%, #fffaae 35%, #f5c451 70%, #d4af37 100%);
   background-size: 200% auto;
-  animation: goldShimmer 6s ease-in-out infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 5s linear infinite;
 }
 
 .text-gold-solid {
@@ -74,7 +155,16 @@ img {
   background: radial-gradient(circle at center, rgba(46, 10, 74, 0.45) 0%, rgba(13, 5, 24, 0.85) 60%, rgba(13, 5, 24, 0.98) 100%);
 }
 
-/* Gold Glow Border & Hover Effects */
+/* Ambient Radial Light Glows */
+.bg-light-glow {
+  background-image: radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.15) 0%, rgba(74, 18, 104, 0.08) 50%, rgba(13, 5, 24, 0) 80%);
+}
+
+.bg-radial-purple {
+  background-image: radial-gradient(ellipse at center, rgba(74, 18, 104, 0.4) 0%, rgba(13, 5, 24, 0.95) 75%);
+}
+
+/* Border Effects */
 .border-gold-glow {
   border: 1px solid rgba(212, 175, 55, 0.3);
   box-shadow: 0 4px 20px -2px rgba(212, 175, 55, 0.15);
@@ -90,35 +180,46 @@ img {
   box-shadow: 0 10px 30px -5px rgba(212, 175, 55, 0.3);
 }
 
-/* Keyframe Animations */
+/* Luxury Shimmer Button Effect */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg) translateX(-100%);
+  transition: transform 0.8s ease-in-out;
+}
+.shimmer-btn:hover::after {
+  transform: rotate(30deg) translateX(100%);
+}
+
+/* Keyframes */
 @keyframes goldShimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @keyframes goldPulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(245, 196, 81, 0.8);
-  }
+  0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+  50% { box-shadow: 0 0 35px rgba(245, 196, 81, 0.7); }
 }
 
 @keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
 .animate-gold-pulse {
@@ -129,44 +230,40 @@ img {
   animation: floatSlow 4s ease-in-out infinite;
 }
 
-/* Devanagari / Hindi font helper */
+/* Typography Classes & Devanagari Adjustment */
 .font-hindi {
-  font-family: 'Mukta', 'Noto Sans Devanagari', 'Noto Serif Devanagari', 'Poppins', sans-serif;
+  font-family: 'Mukta', 'Noto Sans Devanagari', 'Noto Serif Devanagari', sans-serif;
   font-feature-settings: "liga" 1, "kern" 1;
+  font-size: 1.08em;
 }
 
-.font-serif-heading {
-  font-family: 'Playfair Display', 'Cormorant Garamond', 'Cinzel', serif;
+.font-serif-heading, .font-display {
+  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
 }
 
-/* Glassmorphism utility */
-.glass-panel {
-  background: rgba(26, 10, 46, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+.font-body, .font-sans {
+  font-family: 'Poppins', 'Inter', sans-serif;
 }
 
-.glass-nav {
-  background: rgba(13, 5, 24, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
-
 ::-webkit-scrollbar-track {
   background: #0d0518;
 }
-
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #d4af37, #4a1268);
   border-radius: 5px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #f5c451, #6b1d96);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -1,51 +1,59 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Phone, MessageCircle } from 'lucide-react';
 import { businessInfo } from '../data/content';
 
 const FloatingButtons = () => {
   return (
     <>
-      {/* Floating WhatsApp Button (Desktop + Mobile) */}
-      <motion.a
+      {/* Floating WhatsApp Bubble (Desktop & Mobile) */}
+      <a
         href={businessInfo.whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="fixed bottom-20 sm:bottom-8 right-5 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.5)] border-2 border-amber-300 group cursor-pointer"
+        data-cursor="link"
+        className="fixed bottom-20 sm:bottom-8 right-5 z-40 w-13 h-13 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-lg hover:bg-emerald-500 hover:scale-105 transition-all group cursor-pointer border border-emerald-400/40"
         aria-label="Chat on WhatsApp with S.Kumar Light and Flower Decoration"
       >
-        <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping pointer-events-none" />
+        <MessageCircle className="w-6 h-6 fill-white text-emerald-600" />
         
-        <MessageCircle className="w-7 h-7 fill-white text-emerald-600 relative z-10" />
-        
-        <span className="absolute right-16 px-3 py-1.5 rounded-lg bg-[#0d0518] text-[#f5c451] text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-[#d4af37]/40 shadow-lg">
-          Chat on WhatsApp
+        <span className="absolute right-16 px-3 py-1.5 rounded-xl bg-purple-950/95 text-amber-300 text-body-sm font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border border-amber-500/30 shadow-xl font-body pointer-events-none">
+          💬 Instant WhatsApp Quote
         </span>
-      </motion.a>
+      </a>
 
-      {/* Floating "Call Now" Sticky Bar (Mobile Only - Fixed at Bottom) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0d0518]/95 backdrop-blur-md border-t border-[#d4af37]/40 p-3 flex items-center justify-between gap-3 shadow-[0_-5px_20px_rgba(0,0,0,0.8)]">
-        <div className="flex flex-col pl-2">
-          <span className="text-[10px] uppercase font-bold text-gold-gradient tracking-wider">
-            S.KUMAR LIGHT & FLOWER
+      {/* Floating Call & WhatsApp Sticky Bar (Mobile Only) */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-purple-950/95 backdrop-blur-xl border-t border-amber-500/30 p-3 flex items-center justify-between gap-3 shadow-2xl">
+        <div className="flex flex-col pl-2 text-left">
+          <span className="text-label font-bold font-display text-gold-gradient tracking-widest uppercase">
+            S.KUMAR LIGHT DECOR
           </span>
-          <span className="text-xs font-bold text-slate-200 font-hindi">
-            कपूरवाला, जयपुर
+          <span className="text-label font-semibold text-slate-300 font-hindi">
+            खातीपुरा, जयपुर
           </span>
         </div>
 
-        <a
-          href={`tel:${businessInfo.phone}`}
-          aria-label={`Call S.Kumar Light and Flower Decoration at ${businessInfo.phone}`}
-          className="flex-1 max-w-[200px] flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-gold-gradient text-purple-950 font-bold text-sm shadow-[0_0_15px_rgba(212,175,55,0.5)] active:scale-95 transition-transform"
-        >
-          <Phone className="w-4 h-4 fill-purple-950" />
-          <span>Call: {businessInfo.phone}</span>
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={businessInfo.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="link"
+            className="p-2.5 rounded-full bg-emerald-600/90 text-white border border-emerald-400/40 active:scale-95 flex items-center justify-center shadow-md"
+            aria-label="WhatsApp chat"
+          >
+            <MessageCircle className="w-4 h-4 fill-white" />
+          </a>
+
+          <a
+            href={`tel:${businessInfo.phone}`}
+            data-cursor="link"
+            aria-label={`Call S.Kumar Light and Flower Decoration at ${businessInfo.phone}`}
+            className="shimmer-btn flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-gold-gradient text-purple-950 font-bold text-body-sm shadow-gold-glow active:scale-95 font-body"
+          >
+            <Phone className="w-3.5 h-3.5 fill-purple-950" />
+            <span>Call {businessInfo.phone}</span>
+          </a>
+        </div>
       </div>
     </>
   );

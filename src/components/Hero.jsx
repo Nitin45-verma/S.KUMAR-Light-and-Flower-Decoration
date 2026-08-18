@@ -1,163 +1,218 @@
-import React, { lazy, Suspense } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Phone, Image as ImageIcon, Sparkles, MapPin, Star } from 'lucide-react';
-import Logo from './Logo';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MapPin, Star, Phone, Image as ImageIcon } from 'lucide-react';
 import { businessInfo } from '../data/content';
+import MagneticButton from './MagneticButton';
+import MagicRings from './MagicRings';
+import Lightfall from './Lightfall';
+import logoImg from '../assets/logo.webp';
 
-const FairyLights = lazy(() => import('./FairyLights'));
+// Floating sparkling light dots for magical ambient atmosphere
+const sparklingParticles = [
+  { top: '12%', left: '8%', size: '6px', delay: '0s', duration: '3.5s' },
+  { top: '22%', left: '88%', size: '8px', delay: '1s', duration: '4.5s' },
+  { top: '48%', left: '12%', size: '5px', delay: '0.5s', duration: '4s' },
+  { top: '68%', left: '92%', size: '7px', delay: '1.8s', duration: '5.5s' },
+  { top: '82%', left: '18%', size: '9px', delay: '1.2s', duration: '5s' },
+  { top: '32%', left: '78%', size: '6px', delay: '2.2s', duration: '3.8s' },
+  { top: '75%', left: '62%', size: '5px', delay: '0.7s', duration: '4.2s' },
+  { top: '18%', left: '38%', size: '8px', delay: '1.5s', duration: '5.2s' },
+  { top: '88%', left: '82%', size: '6px', delay: '2.8s', duration: '4.6s' },
+  { top: '10%', left: '68%', size: '7px', delay: '0.3s', duration: '4.9s' },
+];
 
 const Hero = () => {
-  const { scrollY } = useScroll();
-  const yBg = useTransform(scrollY, [0, 800], [0, 200]);
-  const scaleBg = useTransform(scrollY, [0, 800], [1, 1.18]);
-  const opacityText = useTransform(scrollY, [0, 550], [1, 0]);
-  const yText = useTransform(scrollY, [0, 550], [0, -80]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.02,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
-
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] lg:h-screen flex items-center justify-center pt-16 sm:pt-20 pb-8 sm:pb-10 overflow-hidden bg-[#0d0518]"
+      className="relative min-h-[92dvh] lg:min-h-screen flex items-center justify-center pt-28 pb-20 text-gray-100 overflow-hidden bg-purple-950"
     >
-      {/* Background Image with Parallax Scroll Shift */}
-      <motion.div style={{ y: yBg, scale: scaleBg }} className="absolute inset-0 z-0">
+      {/* Background Illumination Silhouette with Scrim */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <img
           src={businessInfo.heroBgImage}
-          alt="S.Kumar Light and Flower Decoration Jaipur"
+          alt="S.Kumar Light and Flower Decoration Background"
           width={1920}
           height={1080}
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
           decoding="sync"
-          className="w-full h-full object-cover object-center filter brightness-75 transition-transform duration-10000 hover:scale-105"
+          className="w-full h-full object-cover object-center scale-105 opacity-20 filter brightness-[0.35] contrast-125 pointer-events-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0518] via-[#0d0518]/85 to-[#1a0a2e]/70" />
-        <div className="absolute inset-0 bg-hero-overlay" />
-      </motion.div>
 
-      {/* Canvas Fairy Lights Particle Animation */}
-      <Suspense fallback={null}>
-        <FairyLights />
-      </Suspense>
+        {/* Animated Lightfall Falling Streaks Background Layer */}
+        <div className="absolute inset-0 opacity-75 mix-blend-screen pointer-events-none">
+          <Lightfall
+            colors={['#f5c451', '#e879f9', '#a855f7', '#fbbf24', '#ffd700']}
+            backgroundColor="#1a0b2e"
+            speed={0.7}
+            streakCount={8}
+            streakWidth={1.2}
+            streakLength={1.2}
+            glow={1.2}
+            density={0.8}
+            twinkle={1}
+            zoom={2.2}
+            backgroundGlow={0.4}
+            opacity={0.85}
+            mouseInteraction={true}
+            mouseStrength={0.8}
+            mouseRadius={0.7}
+            mixBlendMode="screen"
+          />
+        </div>
 
-      {/* Glowing Ambient Light Orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-gradient-to-tr from-[#f5c451]/20 via-[#4a1268]/40 to-transparent rounded-full blur-[100px] pointer-events-none z-10" />
+        {/* Animated Magic Rings Background Layer */}
+        <div className="absolute inset-0 opacity-85 mix-blend-screen pointer-events-none">
+          <MagicRings
+            color="#f5c451"
+            colorTwo="#a855f7"
+            ringCount={6}
+            speed={0.8}
+            attenuation={8}
+            lineThickness={2.2}
+            baseRadius={0.28}
+            radiusStep={0.1}
+            scaleRate={0.12}
+            opacity={0.7}
+            blur={0}
+            noiseAmount={0.08}
+            rotation={15}
+            ringGap={1.5}
+            fadeIn={0.7}
+            fadeOut={0.5}
+            followMouse={true}
+            mouseInfluence={0.2}
+            hoverScale={1.15}
+            parallax={0.04}
+            clickBurst={true}
+          />
+        </div>
 
-      <motion.div style={{ opacity: opacityText, y: yText }} className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center my-auto">
+        {/* Radial Purple Glow Overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(74,18,104,0.5)_0%,rgba(13,5,24,0.92)_85%)] pointer-events-none" />
+      </div>
+
+      {/* Glowing Floating Particles */}
+      {sparklingParticles.map((p, idx) => (
+        <div
+          key={idx}
+          className="absolute rounded-full bg-amber-300/90 shadow-[0_0_15px_#f5c451] animate-pulse pointer-events-none z-0"
+          style={{
+            top: p.top,
+            left: p.left,
+            width: p.size,
+            height: p.size,
+            animationDelay: p.delay,
+            animationDuration: p.duration,
+          }}
+        />
+      ))}
+
+      {/* CENTERED HERO CONTENT CONTAINER */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-center flex flex-col items-center space-y-6">
+        
+        {/* Top Outlined Pill: KHATIPURA, JAIPUR */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.15, duration: 0.4 }}
+          className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-amber-400/40 bg-purple-950/80 text-amber-300 text-xs font-bold uppercase tracking-widest shadow-xl font-sans"
         >
-          {/* Top Location Badge */}
-          <motion.div
-            variants={itemVariants}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1a0a2e]/90 border border-[#d4af37]/40 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.2)] mb-3 sm:mb-4"
-          >
-            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f5c451]" />
-            <span className="text-[11px] sm:text-xs font-semibold tracking-widest text-[#f5c451] uppercase">
-              {businessInfo.shortLocation}
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#f5c451] animate-ping" />
-          </motion.div>
-
-          {/* Grand Brand Logo Display & Primary Heading */}
-          <motion.div variants={itemVariants} className="mb-2 sm:mb-3 flex flex-col items-center">
-            <Logo size="hero" />
-            <h1 className="sr-only">
-              {businessInfo.name} - Premium Wedding Lighting & Flower Decoration in Khatipura, Jaipur
-            </h1>
-          </motion.div>
-
-          {/* Subheading Location */}
-          <motion.p
-            variants={itemVariants}
-            className="mt-1.5 text-[11px] sm:text-xs font-medium tracking-[0.2em] text-[#f5c451] uppercase font-sans flex items-center justify-center gap-2"
-          >
-            <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-r from-transparent to-[#f5c451]" />
-            <span>{businessInfo.shortLocation.toUpperCase()}</span>
-            <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-l from-transparent to-[#f5c451]" />
-          </motion.p>
-
-          {/* Hindi Tagline */}
-          <motion.div variants={itemVariants} className="mt-3 sm:mt-4 max-w-2xl">
-            <p className="text-base sm:text-xl md:text-2xl font-hindi font-medium text-slate-100 leading-snug sm:leading-relaxed drop-shadow-md">
-              "{businessInfo.taglineHindi}"
-            </p>
-            <p className="mt-1 text-[11px] sm:text-xs text-slate-300 italic font-sans font-light max-w-xl mx-auto">
-              "{businessInfo.taglineEnglish}"
-            </p>
-          </motion.div>
-
-          {/* Star Accent */}
-          <motion.div variants={itemVariants} className="mt-3 sm:mt-4 flex items-center gap-3">
-            <span className="w-10 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/60 to-[#d4af37]" />
-            <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f5c451] fill-[#f5c451] animate-spin-slow" />
-            <span className="w-10 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-[#d4af37]/60 to-[#d4af37]" />
-          </motion.div>
-
-          {/* Dual CTA Buttons */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto"
-          >
-            <motion.a
-              href={`tel:${businessInfo.phone}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-2.5 sm:py-3 rounded-full bg-gold-gradient text-purple-950 font-bold text-sm sm:text-base shadow-[0_0_25px_rgba(212,175,55,0.5)] hover:shadow-[0_0_35px_rgba(245,196,81,0.8)] transition-all duration-300"
-            >
-              <Phone className="w-4 h-4 sm:w-5 sm:h-5 fill-purple-950" />
-              <span>Call Now 📞 {businessInfo.phone}</span>
-            </motion.a>
-
-            <motion.a
-              href="#gallery"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 sm:py-3 rounded-full border-2 border-[#d4af37] text-[#f5c451] font-semibold text-sm sm:text-base bg-[#1a0a2e]/60 backdrop-blur-sm hover:bg-[#d4af37]/10 hover:border-[#f5c451] transition-all duration-300"
-            >
-              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-[#f5c451]" />
-              <span>View Gallery</span>
-            </motion.a>
-          </motion.div>
+          <MapPin className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+          <span>KHATIPURA, JAIPUR</span>
         </motion.div>
-      </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-        className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20"
-      >
-        <a
-          href="#about"
-          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-[#d4af37]/40 bg-[#1a0a2e]/80 flex items-center justify-center text-[#f5c451] hover:border-[#f5c451] transition-colors"
-          aria-label="Scroll to About section"
+        {/* GRAND CENTER BRAND LOGO IMAGE */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="py-2 flex justify-center"
         >
-          <Sparkles className="w-4 h-4 animate-pulse" />
-        </a>
-      </motion.div>
+          <img
+            src={logoImg}
+            alt="S.KUMAR Light and Flower Decoration Grand Royal Logo"
+            width={440}
+            height={200}
+            loading="eager"
+            decoding="async"
+            className="w-[280px] sm:w-[360px] md:w-[440px] max-w-full h-auto object-contain drop-shadow-[0_12px_30px_rgba(212,175,55,0.45)] hover:scale-[1.02] transition-transform duration-500 cursor-pointer"
+            data-cursor="view"
+          />
+        </motion.div>
+
+        {/* Eyebrow Divider */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.45, duration: 0.5 }}
+          className="flex items-center justify-center gap-4 text-xs font-bold text-amber-300 uppercase tracking-widest font-sans w-full max-w-md"
+        >
+          <span className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-amber-400/60" />
+          <span>KHATIPURA, JAIPUR</span>
+          <span className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-amber-400/60" />
+        </motion.div>
+
+        {/* Main Hindi Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.6 }}
+          className="text-2xl sm:text-4xl md:text-5xl font-bold font-hindi text-white max-w-3xl mx-auto leading-snug tracking-wide drop-shadow-lg"
+        >
+          "आपके हर खास मौके को बनाएं और भी खास, हमारी लाइटिंग से दें एक नई पहचान!"
+        </motion.h1>
+
+        {/* English Sub-Tagline */}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65, duration: 0.6 }}
+          className="text-xs sm:text-sm md:text-base text-slate-300 font-sans italic max-w-2xl mx-auto font-light tracking-wide"
+        >
+          "Make every special occasion even more special — give it a new identity with our lighting"
+        </motion.p>
+
+        {/* Gold Star Divider */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+          className="flex items-center justify-center gap-4 text-amber-400 w-full max-w-sm pt-1"
+        >
+          <span className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-amber-400/50" />
+          <Star className="w-4 h-4 fill-amber-400 text-amber-400 shadow-gold-glow" />
+          <span className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-amber-400/50" />
+        </motion.div>
+
+        {/* Action CTA Buttons Side-by-Side */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6"
+        >
+          <MagneticButton
+            href={`tel:${businessInfo.phone}`}
+            className="shimmer-btn gap-2.5 px-8 py-4 rounded-full bg-gold-gradient text-purple-950 font-bold text-sm sm:text-base font-sans shadow-gold-glow hover:shadow-gold-glow-lg transition-all duration-300"
+            data-cursor="link"
+          >
+            <Phone className="w-4 h-4 fill-purple-950" />
+            <span>Call Now 📞 {businessInfo.phone}</span>
+          </MagneticButton>
+
+          <MagneticButton
+            href="#gallery"
+            className="gap-2.5 px-8 py-4 rounded-full border border-amber-400/50 text-amber-300 bg-purple-950/80 hover:bg-amber-400/20 font-bold text-sm sm:text-base font-sans transition-all duration-300 hover:border-amber-400 hover:text-white shadow-md backdrop-blur-md"
+            data-cursor="link"
+          >
+            <ImageIcon className="w-4 h-4 text-amber-300" />
+            <span>View Gallery</span>
+          </MagneticButton>
+        </motion.div>
+
+      </div>
     </section>
   );
 };

@@ -1,28 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Crown } from 'lucide-react';
 import { businessInfo } from '../data/content';
 import Logo from './Logo';
 
-const SplashScreen = ({ duration = 2500, onComplete }) => {
+const SplashScreen = ({ duration = 950, onComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-
-    const intervalTime = 25;
-    const increment = (intervalTime / duration) * 100;
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
-        return prev + increment;
-      });
-    }, intervalTime);
 
     const timeout = setTimeout(() => {
       setIsVisible(false);
@@ -31,7 +16,6 @@ const SplashScreen = ({ duration = 2500, onComplete }) => {
     }, duration);
 
     return () => {
-      clearInterval(timer);
       clearTimeout(timeout);
       document.body.style.overflow = 'unset';
     };
@@ -41,87 +25,42 @@ const SplashScreen = ({ duration = 2500, onComplete }) => {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          key="full-splash-screen"
+          key="fast-splash-screen"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 0.7, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0d0518] text-white overflow-hidden px-4 select-none"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, ease: 'easeInOut' }}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-purple-950 text-gray-100 overflow-hidden px-4 select-none"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#f5c451]/15 rounded-full blur-[140px] pointer-events-none animate-pulse" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-[#4a1268]/40 rounded-full blur-[100px] pointer-events-none" />
+          {/* Ambient Glow Orb */}
+          <div className="absolute w-[350px] h-[350px] bg-amber-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  top: `${(i * 18 + 10) % 90}%`,
-                  left: `${(i * 27 + 15) % 90}%`,
-                  animationDelay: `${i * 0.4}s`,
-                }}
-                className="absolute w-2 h-2 rounded-full bg-[#fff3a1] shadow-[0_0_12px_#f5c451] animate-pulse"
-              />
-            ))}
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center text-center max-w-md w-full">
+          <div className="relative z-10 flex flex-col items-center text-center max-w-md w-full space-y-4">
             <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1a0a2e] border border-[#d4af37]/40 text-[#f5c451] text-xs font-semibold uppercase tracking-widest mb-6 backdrop-blur-md shadow-[0_0_15px_rgba(212,175,55,0.3)]"
-            >
-              <Crown className="w-3.5 h-3.5 text-[#f5c451] animate-bounce" />
-              <span>Luxury Event Illumination</span>
-              <Crown className="w-3.5 h-3.5 text-[#f5c451] animate-bounce" />
-            </motion.div>
-
-            <motion.div
-              initial={{ scale: 0.4, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', damping: 18, stiffness: 200, delay: 0.3 }}
-              className="relative mb-6 flex items-center justify-center"
+              transition={{ duration: 0.4 }}
             >
-              <div className="absolute -inset-6 rounded-full bg-gold-gradient opacity-20 blur-2xl animate-pulse" />
-              <Logo size="splash" />
+              <Logo size="splash" showText={false} />
             </motion.div>
 
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
+            <motion.h1
+              initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="space-y-2"
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="text-h4 font-serif-heading font-bold tracking-widest text-gold-gradient uppercase"
             >
-              <h1 className="text-2xl sm:text-3xl font-serif-heading font-black tracking-wider text-gold-gradient uppercase drop-shadow-[0_4px_15px_rgba(0,0,0,0.9)]">
-                {businessInfo.name}
-              </h1>
+              {businessInfo.name}
+            </motion.h1>
 
-              <p className="text-sm sm:text-base font-hindi font-bold text-slate-200">
-                "{businessInfo.taglineHindi}"
-              </p>
-
-              <p className="text-xs font-mono text-[#f5c451] tracking-widest uppercase mt-1">
-                {businessInfo.shortLocation}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: '100%', opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="w-full mt-8 max-w-xs space-y-2"
-            >
-              <div className="h-1.5 w-full bg-[#1a0a2e] rounded-full border border-[#d4af37]/30 p-0.5 overflow-hidden shadow-inner">
-                <motion.div
-                  className="h-full bg-gold-gradient rounded-full shadow-[0_0_15px_#f5c451]"
-                  style={{ width: `${Math.min(progress, 100)}%` }}
-                />
-              </div>
-              <div className="flex justify-between items-center text-[10px] font-mono text-[#f5c451]/80">
-                <span>Loading Luxury Decor...</span>
-                <span>{Math.round(Math.min(progress, 100))}%</span>
-              </div>
-            </motion.div>
+            {/* Fast Elegant Center Line Draw (scaleX 0 -> 1) */}
+            <div className="w-48 h-[2px] bg-purple-900 overflow-hidden relative rounded-full border border-amber-500/20">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                className="h-full w-full bg-gold-gradient shadow-gold-glow origin-left"
+              />
+            </div>
           </div>
         </motion.div>
       )}
