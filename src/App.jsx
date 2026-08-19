@@ -22,7 +22,19 @@ const Footer = lazy(() => import('./components/Footer'));
 const FloatingButtons = lazy(() => import('./components/FloatingButtons'));
 
 function App() {
+  const [isPointerFine, setIsPointerFine] = React.useState(false);
+
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: fine)');
+    const updatePointerFine = () => setIsPointerFine(mediaQuery.matches);
+    
+    updatePointerFine();
+    mediaQuery.addEventListener('change', updatePointerFine);
+
+    if (!mediaQuery.matches) {
+      return () => mediaQuery.removeEventListener('change', updatePointerFine);
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -38,45 +50,46 @@ function App() {
     requestAnimationFrame(raf);
 
     return () => {
+      mediaQuery.removeEventListener('change', updatePointerFine);
       lenis.destroy();
     };
   }, []);
 
   return (
     <div className="min-h-screen bg-purple-950 text-slate-100 font-sans selection:bg-amber-400 selection:text-purple-950 relative">
-      {/* Ghost Cursor Ethereal Fluid Trail */}
-      <div className="fixed inset-0 pointer-events-none z-10">
-        <GhostCursor
-          color="#f5c451"
-          brightness={1.15}
-          edgeIntensity={0}
-          trailLength={50}
-          inertia={0.5}
-          grainIntensity={0.04}
-          bloomStrength={0.12}
-          bloomRadius={1.0}
-          bloomThreshold={0.025}
-          mixBlendMode="screen"
-          zIndex={10}
-        />
-      </div>
-
-      {/* Root Custom Animated Cursor */}
-      <CustomCursor />
-
-      {/* Interactive WebGL Fluid Splash Cursor */}
-      <SplashCursor
-        SIM_RESOLUTION={64}
-        DYE_RESOLUTION={512}
-        DENSITY_DISSIPATION={3.5}
-        VELOCITY_DISSIPATION={2}
-        PRESSURE={0.1}
-        CURL={3}
-        SPLAT_RADIUS={0.2}
-        SPLAT_FORCE={6000}
-        RAINBOW_MODE={true}
-        COLOR="#f5c451"
-      />
+      {/* Desktop Only Interactive Cursors & WebGL Effects */}
+      {isPointerFine && (
+        <>
+          <div className="fixed inset-0 pointer-events-none z-10">
+            <GhostCursor
+              color="#f5c451"
+              brightness={1.15}
+              edgeIntensity={0}
+              trailLength={50}
+              inertia={0.5}
+              grainIntensity={0.04}
+              bloomStrength={0.12}
+              bloomRadius={1.0}
+              bloomThreshold={0.025}
+              mixBlendMode="screen"
+              zIndex={10}
+            />
+          </div>
+          <CustomCursor />
+          <SplashCursor
+            SIM_RESOLUTION={64}
+            DYE_RESOLUTION={512}
+            DENSITY_DISSIPATION={3.5}
+            VELOCITY_DISSIPATION={2}
+            PRESSURE={0.1}
+            CURL={3}
+            SPLAT_RADIUS={0.2}
+            SPLAT_FORCE={6000}
+            RAINBOW_MODE={true}
+            COLOR="#f5c451"
+          />
+        </>
+      )}
 
       <Suspense fallback={null}>
         <ScrollProgress />

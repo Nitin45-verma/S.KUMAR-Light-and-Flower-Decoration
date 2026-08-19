@@ -305,7 +305,7 @@ const Waves = ({
     frameIdRef.current = requestAnimationFrame(tick);
     window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
 
     return () => {
       io.disconnect();

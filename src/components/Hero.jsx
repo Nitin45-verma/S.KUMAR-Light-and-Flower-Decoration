@@ -22,6 +22,15 @@ const sparklingParticles = [
 ];
 
 const Hero = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -46,7 +55,7 @@ const Hero = () => {
             colors={['#f5c451', '#e879f9', '#a855f7', '#fbbf24', '#ffd700']}
             backgroundColor="#1a0b2e"
             speed={0.7}
-            streakCount={8}
+            streakCount={isMobile ? 4 : 8}
             streakWidth={1.2}
             streakLength={1.2}
             glow={1.2}
@@ -55,7 +64,7 @@ const Hero = () => {
             zoom={2.2}
             backgroundGlow={0.4}
             opacity={0.85}
-            mouseInteraction={true}
+            mouseInteraction={!isMobile}
             mouseStrength={0.8}
             mouseRadius={0.7}
             mixBlendMode="screen"
@@ -67,7 +76,7 @@ const Hero = () => {
           <MagicRings
             color="#f5c451"
             colorTwo="#a855f7"
-            ringCount={6}
+            ringCount={isMobile ? 4 : 6}
             speed={0.8}
             attenuation={8}
             lineThickness={2.2}
@@ -81,7 +90,7 @@ const Hero = () => {
             ringGap={1.5}
             fadeIn={0.7}
             fadeOut={0.5}
-            followMouse={true}
+            followMouse={!isMobile}
             mouseInfluence={0.2}
             hoverScale={1.15}
             parallax={0.04}

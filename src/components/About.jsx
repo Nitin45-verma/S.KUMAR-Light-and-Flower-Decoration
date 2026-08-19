@@ -40,7 +40,7 @@ const About = () => {
   return (
     <section id="about" className="py-24 sm:py-32 bg-purple-950 text-slate-100 relative overflow-hidden">
       {/* Interactive 3D Ballpit Physics Layer */}
-      <div className="absolute inset-0 z-0 opacity-30 pointer-events-auto">
+      <div className="absolute inset-0 z-0 opacity-30 pointer-events-none lg:pointer-events-auto">
         <Ballpit
           count={100}
           gravity={0.4}
