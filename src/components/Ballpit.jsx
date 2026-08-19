@@ -216,6 +216,12 @@ class x {
     this.#c.reset();
     animate();
   }
+  startAnimation() {
+    this.#w();
+  }
+  stopAnimation() {
+    this.#z();
+  }
   #z() {
     if (this.#n) {
       cancelAnimationFrame(this.#l);
@@ -784,6 +790,12 @@ function createBallpit(e, t = {}) {
     togglePause() {
       c = !c;
     },
+    pause() {
+      i.stopAnimation();
+    },
+    resume() {
+      i.startAnimation();
+    },
     dispose() {
       h.dispose();
       i.dispose();
@@ -806,7 +818,19 @@ const Ballpit = ({ className = '', followCursor = true, ...props }) => {
       console.warn('Ballpit mount error:', err);
     }
 
+    const io = new IntersectionObserver(([entry]) => {
+      if (spheresInstanceRef.current) {
+        if (entry.isIntersecting) {
+          spheresInstanceRef.current.resume();
+        } else {
+          spheresInstanceRef.current.pause();
+        }
+      }
+    });
+    io.observe(canvas);
+
     return () => {
+      io.disconnect();
       if (spheresInstanceRef.current) {
         try {
           spheresInstanceRef.current.dispose();

@@ -678,8 +678,26 @@ function SplashCursor({
     let lastUpdateTime = Date.now();
     let colorUpdateTimer = 0.0;
 
+    let lastActivityTime = Date.now();
+
+    function wakeUp() {
+      lastActivityTime = Date.now();
+      if (isActive && !animationFrameId.current) {
+        lastUpdateTime = Date.now();
+        animationFrameId.current = requestAnimationFrame(updateFrame);
+      }
+    }
+
     function updateFrame() {
-      if (!isActive) return;
+      if (!isActive) {
+        animationFrameId.current = null;
+        return;
+      }
+      const now = Date.now();
+      if (now - lastActivityTime > 1500) {
+        animationFrameId.current = null;
+        return;
+      }
       const dt = calcDeltaTime();
       if (resizeCanvas()) initFramebuffers();
       updateColors(dt);
@@ -980,6 +998,7 @@ function SplashCursor({
 
     // Named event handlers for proper cleanup
     function handleMouseDown(e) {
+      wakeUp();
       let pointer = pointers[0];
       let posX = scaleByPixelRatio(e.clientX);
       let posY = scaleByPixelRatio(e.clientY);
@@ -989,6 +1008,7 @@ function SplashCursor({
 
     let firstMouseMoveHandled = false;
     function handleMouseMove(e) {
+      wakeUp();
       let pointer = pointers[0];
       let posX = scaleByPixelRatio(e.clientX);
       let posY = scaleByPixelRatio(e.clientY);
@@ -1002,6 +1022,7 @@ function SplashCursor({
     }
 
     function handleTouchStart(e) {
+      wakeUp();
       const touches = e.targetTouches;
       let pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {
@@ -1012,6 +1033,7 @@ function SplashCursor({
     }
 
     function handleTouchMove(e) {
+      wakeUp();
       const touches = e.targetTouches;
       let pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {

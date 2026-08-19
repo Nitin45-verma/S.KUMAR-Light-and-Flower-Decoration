@@ -66,8 +66,8 @@ function App() {
 
       {/* Interactive WebGL Fluid Splash Cursor */}
       <SplashCursor
-        SIM_RESOLUTION={128}
-        DYE_RESOLUTION={1440}
+        SIM_RESOLUTION={64}
+        DYE_RESOLUTION={512}
         DENSITY_DISSIPATION={3.5}
         VELOCITY_DISSIPATION={2}
         PRESSURE={0.1}

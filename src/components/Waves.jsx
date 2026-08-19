@@ -237,7 +237,13 @@ const Waves = ({
       ctx.stroke();
     }
 
+    let isVisible = true;
+
     function tick(t) {
+      if (!isVisible) {
+        frameIdRef.current = null;
+        return;
+      }
       const mouse = mouseRef.current;
       mouse.sx += (mouse.x - mouse.sx) * 0.1;
       mouse.sy += (mouse.y - mouse.sy) * 0.1;
@@ -287,12 +293,22 @@ const Waves = ({
 
     setSize();
     setLines();
+
+    const io = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !frameIdRef.current) {
+        frameIdRef.current = requestAnimationFrame(tick);
+      }
+    });
+    if (container) io.observe(container);
+
     frameIdRef.current = requestAnimationFrame(tick);
     window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('touchmove', onTouchMove, { passive: false });
 
     return () => {
+      io.disconnect();
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('touchmove', onTouchMove);

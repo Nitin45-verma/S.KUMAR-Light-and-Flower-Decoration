@@ -279,7 +279,13 @@ const Lightfall = ({
       canvas.addEventListener('pointermove', onPointerMove);
     }
 
+    let isVisible = true;
+
     const loop = t => {
+      if (!isVisible) {
+        rafRef.current = null;
+        return;
+      }
       rafRef.current = requestAnimationFrame(loop);
       uniforms.iTime.value = t * 0.001;
       if (mouseDampening > 0) {
@@ -304,9 +310,19 @@ const Lightfall = ({
         }
       }
     };
+
+    const io = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !rafRef.current) {
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    });
+    io.observe(container);
+
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
+      io.disconnect();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (mouseInteraction) canvas.removeEventListener('pointermove', onPointerMove);
       ro.disconnect();

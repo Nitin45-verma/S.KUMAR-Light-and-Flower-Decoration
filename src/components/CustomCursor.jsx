@@ -4,8 +4,6 @@ import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motio
 const CustomCursor = () => {
   const [isPointerFine, setIsPointerFine] = useState(false);
   const [cursorState, setCursorState] = useState('default'); // 'default' | 'link' | 'view' | 'text'
-  const [activeImgSrc, setActiveImgSrc] = useState('');
-  const [lensPos, setLensPos] = useState({ cursorX: 0, cursorY: 0, rectWidth: 0, rectHeight: 0 });
 
   // Motion values for raw mouse coordinates (no re-renders)
   const mouseX = useMotionValue(-100);
@@ -27,6 +25,9 @@ const CustomCursor = () => {
     return () => mediaQuery.removeEventListener('change', updatePointerFine);
   }, []);
 
+  const lensRef = React.useRef(null);
+  const activeImgSrcRef = React.useRef('');
+
   useEffect(() => {
     if (!isPointerFine) {
       document.body.classList.remove('custom-cursor-active');
@@ -35,22 +36,31 @@ const CustomCursor = () => {
 
     document.body.classList.add('custom-cursor-active');
 
+    const updateLens = (e, target) => {
+      let imgEl = target.tagName.toLowerCase() === 'img' ? target : target.querySelector('img');
+      if (imgEl && (imgEl.src || imgEl.currentSrc)) {
+        const src = imgEl.currentSrc || imgEl.src;
+        const rect = imgEl.getBoundingClientRect();
+        const cursorX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+        const cursorY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+
+        activeImgSrcRef.current = src;
+        if (lensRef.current) {
+          lensRef.current.style.backgroundImage = `url("${src}")`;
+          lensRef.current.style.backgroundSize = `${rect.width * 1.5}px ${rect.height * 1.5}px`;
+          lensRef.current.style.backgroundPosition = `${-cursorX * 1.5 + 40}px ${-cursorY * 1.5 + 40}px`;
+        }
+      }
+    };
+
     const handleMouseMove = (e) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
 
-      // Track active image and calculate exact 1.5x optical lens position
-      const target = e.target.closest('img, [data-cursor="view"], .cursor-view');
-      if (target) {
-        let imgEl = target.tagName.toLowerCase() === 'img' ? target : target.querySelector('img');
-        if (imgEl && (imgEl.src || imgEl.currentSrc)) {
-          const src = imgEl.currentSrc || imgEl.src;
-          const rect = imgEl.getBoundingClientRect();
-          const cursorX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-          const cursorY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-
-          setActiveImgSrc(src);
-          setLensPos({ cursorX, cursorY, rectWidth: rect.width, rectHeight: rect.height });
+      if (cursorState === 'view') {
+        const target = e.target.closest('img, [data-cursor="view"], .cursor-view');
+        if (target) {
+          updateLens(e, target);
         }
       }
     };
@@ -59,56 +69,35 @@ const CustomCursor = () => {
       const target = e.target.closest('[data-cursor], a, button, [role="button"], input, textarea, select, img, .cursor-view');
       
       if (!target) {
-        setCursorState('default');
-        setActiveImgSrc('');
+        if (cursorState !== 'default') setCursorState('default');
         return;
       }
 
       const explicitDataCursor = target.getAttribute('data-cursor');
       if (explicitDataCursor) {
-        setCursorState(explicitDataCursor);
+        if (cursorState !== explicitDataCursor) setCursorState(explicitDataCursor);
         if (explicitDataCursor === 'view') {
-          let imgEl = target.tagName.toLowerCase() === 'img' ? target : target.querySelector('img');
-          if (imgEl && (imgEl.src || imgEl.currentSrc)) {
-            const src = imgEl.currentSrc || imgEl.src;
-            const rect = imgEl.getBoundingClientRect();
-            const cursorX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-            const cursorY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-            setActiveImgSrc(src);
-            setLensPos({ cursorX, cursorY, rectWidth: rect.width, rectHeight: rect.height });
-          }
+          updateLens(e, target);
         }
         return;
       }
 
       const tagName = target.tagName.toLowerCase();
       if (tagName === 'input' || tagName === 'textarea' || target.getAttribute('contenteditable')) {
-        setCursorState('text');
-        setActiveImgSrc('');
+        if (cursorState !== 'text') setCursorState('text');
       } else if (tagName === 'img' || target.classList.contains('cursor-view')) {
-        setCursorState('view');
-        let imgEl = tagName === 'img' ? target : target.querySelector('img');
-        if (imgEl && (imgEl.src || imgEl.currentSrc)) {
-          const src = imgEl.currentSrc || imgEl.src;
-          const rect = imgEl.getBoundingClientRect();
-          const cursorX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-          const cursorY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-          setActiveImgSrc(src);
-          setLensPos({ cursorX, cursorY, rectWidth: rect.width, rectHeight: rect.height });
-        }
+        if (cursorState !== 'view') setCursorState('view');
+        updateLens(e, target);
       } else if (tagName === 'a' || tagName === 'button' || target.getAttribute('role') === 'button') {
-        setCursorState('link');
-        setActiveImgSrc('');
+        if (cursorState !== 'link') setCursorState('link');
       } else {
-        setCursorState('default');
-        setActiveImgSrc('');
+        if (cursorState !== 'default') setCursorState('default');
       }
     };
 
     const handleMouseOut = (e) => {
       if (!e.relatedTarget) {
         setCursorState('default');
-        setActiveImgSrc('');
       }
     };
 
@@ -122,7 +111,7 @@ const CustomCursor = () => {
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mouseout', handleMouseOut);
     };
-  }, [isPointerFine, mouseX, mouseY]);
+  }, [isPointerFine, mouseX, mouseY, cursorState]);
 
   if (!isPointerFine) return null;
 
@@ -210,17 +199,13 @@ const CustomCursor = () => {
               className="absolute inset-0 rounded-[6px] overflow-hidden pointer-events-none flex items-center justify-center"
             >
               {/* True Optical 1.5x Magnifying Glass Lens (Exact 1.5x zoom of covered image area) */}
-              {activeImgSrc && lensPos.rectWidth > 0 && (
-                <div
-                  className="absolute inset-0 bg-no-repeat pointer-events-none"
-                  style={{
-                    backgroundImage: `url("${activeImgSrc}")`,
-                    backgroundSize: `${lensPos.rectWidth * zoomFactor}px ${lensPos.rectHeight * zoomFactor}px`,
-                    backgroundPosition: `${-lensPos.cursorX * zoomFactor + boxRadius}px ${-lensPos.cursorY * zoomFactor + boxRadius}px`,
-                    filter: 'brightness(1.1) contrast(1.05)',
-                  }}
-                />
-              )}
+              <div
+                ref={lensRef}
+                className="absolute inset-0 bg-no-repeat pointer-events-none"
+                style={{
+                  filter: 'brightness(1.1) contrast(1.05)',
+                }}
+              />
 
               {/* Semi-transparent dark tint overlay + VIEW gold text */}
               <div className="absolute inset-0 bg-purple-950/25 pointer-events-none" />

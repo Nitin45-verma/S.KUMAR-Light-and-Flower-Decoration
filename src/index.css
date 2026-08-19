@@ -267,3 +267,10 @@ img {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* GPU Hardware Acceleration & Frame Smoothness */
+canvas, .lightfall-container, .magic-rings-container {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
