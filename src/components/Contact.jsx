@@ -90,6 +90,8 @@ const Contact = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
+      // Directly open WhatsApp with pre-filled message
+      window.open(getWhatsAppUrl(), '_blank');
     }, 1200);
   };
 
