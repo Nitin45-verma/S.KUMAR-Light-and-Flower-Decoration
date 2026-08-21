@@ -571,13 +571,21 @@ class Y extends c {
         e.fragmentShader;
       e.fragmentShader = e.fragmentShader.replace(
         'void main() {',
-        '\n        void RE_Direct_Scattering(const in IncidentLight directLight, const in vec2 uv, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, const in vec3 geometryClearcoatNormal, inout ReflectedLight reflectedLight) {\n          vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));\n          float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;\n          #ifdef USE_COLOR\n            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor;\n          #else\n            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;\n          #endif\n          reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;\n        }\n\n        void main() {\n      '
+        '\n        void RE_Direct_Scattering(const in IncidentLight directLight, const in vec2 uv, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, inout ReflectedLight reflectedLight) {\n          vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));\n          float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;\n          #ifdef USE_COLOR\n            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor;\n          #else\n            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;\n          #endif\n          reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;\n        }\n\n        void main() {\n      '
       );
-      const t = h.lights_fragment_begin.replaceAll(
-        'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );',
-        '\n          RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );\n          RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, reflectedLight);\n        '
-      );
-      e.fragmentShader = e.fragmentShader.replace('#include <lights_fragment_begin>', t);
+      // Replace RE_Direct call to inject scattering — compatible with newer Three.js (no clearcoatNormal arg)
+      const scatterReplace = '\n          RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );\n          RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, reflectedLight);\n        ';
+      if (e.fragmentShader.includes('RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );')) {
+        e.fragmentShader = e.fragmentShader.replace(
+          'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );',
+          scatterReplace
+        );
+      } else if (e.fragmentShader.includes('RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );')) {
+        e.fragmentShader = e.fragmentShader.replace(
+          'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );',
+          '\n          RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );\n          RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, reflectedLight);\n        '
+        );
+      }
       if (this.onBeforeCompile2) this.onBeforeCompile2(e);
     };
   }
@@ -592,8 +600,8 @@ const X = {
   materialParams: {
     metalness: 0.5,
     roughness: 0.5,
-    clearcoat: 1,
-    clearcoatRoughness: 0.15
+    clearcoat: 0,
+    clearcoatRoughness: 0
   },
   minSize: 0.5,
   maxSize: 1,
