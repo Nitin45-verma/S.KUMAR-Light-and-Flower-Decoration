@@ -48,10 +48,9 @@ const FloatingButtons = () => {
             href={`tel:${businessInfo.phone}`}
             data-cursor="link"
             aria-label={`Call S.Kumar Light and Flower Decoration at ${businessInfo.phone}`}
-            className="shimmer-btn flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-gold-gradient text-purple-950 font-bold text-body-sm shadow-gold-glow active:scale-95 font-body"
+            className="shimmer-btn p-2.5 rounded-full bg-gold-gradient text-purple-950 flex items-center justify-center shadow-gold-glow active:scale-95"
           >
-            <Phone className="w-3.5 h-3.5 fill-purple-950" />
-            <span>Call {businessInfo.phone}</span>
+            <Phone className="w-4 h-4 fill-purple-950" />
           </a>
         </div>
       </div>
