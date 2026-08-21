@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import {
   Vector3 as a,
-  MeshPhysicalMaterial as c,
+  MeshStandardMaterial as c,
   InstancedMesh as d,
   Timer as e,
   AmbientLight as f,
@@ -92,7 +92,10 @@ class x {
     if (!this.renderer || !this.renderer.getContext()) {
       throw new Error('WebGLRenderer failed to get context');
     }
+    // Set precision and tone mapping for stable cross-device rendering
     this.renderer.outputColorSpace = n;
+    this.renderer.toneMapping = v;
+    this.renderer.toneMappingExposure = 1.0;
   }
   #g() {
     if (!(this.#e.size instanceof Object)) {
@@ -553,40 +556,75 @@ class W {
   }
 }
 
+// Safe custom material extending MeshStandardMaterial (avoids MeshPhysicalMaterial shader complexity)
 class Y extends c {
   constructor(e) {
     super(e);
     this.uniforms = {
       thicknessDistortion: { value: 0.1 },
-      thicknessAmbient: { value: 0 },
-      thicknessAttenuation: { value: 0.1 },
-      thicknessPower: { value: 2 },
-      thicknessScale: { value: 10 }
+      thicknessAmbient: { value: 0.1 },
+      thicknessAttenuation: { value: 0.2 },
+      thicknessPower: { value: 2.0 },
+      thicknessScale: { value: 6.0 }
     };
     this.defines.USE_UV = '';
-    this.onBeforeCompile = e => {
-      Object.assign(e.uniforms, this.uniforms);
-      e.fragmentShader =
-        '\n        uniform float thicknessPower;\n        uniform float thicknessScale;\n        uniform float thicknessDistortion;\n        uniform float thicknessAmbient;\n        uniform float thicknessAttenuation;\n      ' +
-        e.fragmentShader;
-      e.fragmentShader = e.fragmentShader.replace(
+    this.onBeforeCompile = shader => {
+      // Inject custom uniforms
+      Object.assign(shader.uniforms, this.uniforms);
+
+      // Prepend uniform declarations
+      shader.fragmentShader =
+        `uniform float thicknessPower;
+        uniform float thicknessScale;
+        uniform float thicknessDistortion;
+        uniform float thicknessAmbient;
+        uniform float thicknessAttenuation;
+        ` + shader.fragmentShader;
+
+      // Inject RE_Direct_Scattering helper before main()
+      const scatteringFn = `
+        void RE_Direct_Scattering(
+          const in IncidentLight directLight,
+          const in vec3 geometryNormal,
+          const in vec3 geometryViewDir,
+          inout ReflectedLight reflectedLight
+        ) {
+          vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));
+          float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;
+          #ifdef USE_COLOR
+            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor;
+          #else
+            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;
+          #endif
+          reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;
+        }
+      `;
+      shader.fragmentShader = shader.fragmentShader.replace(
         'void main() {',
-        '\n        void RE_Direct_Scattering(const in IncidentLight directLight, const in vec2 uv, const in vec3 geometryPosition, const in vec3 geometryNormal, const in vec3 geometryViewDir, inout ReflectedLight reflectedLight) {\n          vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));\n          float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;\n          #ifdef USE_COLOR\n            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor;\n          #else\n            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;\n          #endif\n          reflectedLight.directDiffuse += scatteringIllu * thicknessAttenuation * directLight.color;\n        }\n\n        void main() {\n      '
+        scatteringFn + '\nvoid main() {'
       );
-      // Replace RE_Direct call to inject scattering — compatible with newer Three.js (no clearcoatNormal arg)
-      const scatterReplace = '\n          RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );\n          RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, reflectedLight);\n        ';
-      if (e.fragmentShader.includes('RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );')) {
-        e.fragmentShader = e.fragmentShader.replace(
-          'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );',
-          scatterReplace
-        );
-      } else if (e.fragmentShader.includes('RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );')) {
-        e.fragmentShader = e.fragmentShader.replace(
-          'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );',
-          '\n          RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );\n          RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, reflectedLight);\n        '
-        );
+
+      // Safely inject scattering call after RE_Direct — handles multiple Three.js versions
+      const reDirectPatterns = [
+        // Three.js r160+ signature
+        'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );',
+        // Three.js r155 signature
+        'RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, material, reflectedLight );',
+        // Older signature
+        'RE_Direct( directLight, geometry, material, reflectedLight );'
+      ];
+
+      for (const pattern of reDirectPatterns) {
+        if (shader.fragmentShader.includes(pattern)) {
+          shader.fragmentShader = shader.fragmentShader.replace(
+            pattern,
+            pattern + `\n          RE_Direct_Scattering(directLight, geometryNormal, geometryViewDir, reflectedLight);`
+          );
+          break;
+        }
       }
-      if (this.onBeforeCompile2) this.onBeforeCompile2(e);
+
+      if (this.onBeforeCompile2) this.onBeforeCompile2(shader);
     };
   }
 }
@@ -598,10 +636,9 @@ const X = {
   ambientIntensity: 1,
   lightIntensity: 200,
   materialParams: {
-    metalness: 0.5,
-    roughness: 0.5,
-    clearcoat: 0,
-    clearcoatRoughness: 0
+    metalness: 0.6,
+    roughness: 0.3,
+    envMapIntensity: 1.0
   },
   minSize: 0.5,
   maxSize: 1,
