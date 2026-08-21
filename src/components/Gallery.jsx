@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn, Phone, Layers, LayoutGrid, Sparkles } from 'lucide-react';
+import { X, ZoomIn, Phone, Layers, LayoutGrid, Sparkles, ChevronDown } from 'lucide-react';
 import { galleryCategories, galleryItems, businessInfo } from '../data/content';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import './ScrollStack.css';
@@ -13,6 +13,7 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
   const [trailVariant, setTrailVariant] = useState(1);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const uniqueItems = Array.from(
     new Map(galleryItems.map(item => [item.image, item])).values()
@@ -57,7 +58,64 @@ const Gallery = () => {
 
         {/* Category Filter Pills Centered matching exact screenshot */}
         <div className="flex flex-col items-center justify-center gap-6 mb-12">
-          <div className="flex flex-wrap items-center justify-center gap-3 w-full" role="tablist" aria-label="Gallery category filters">
+
+          {/* ── MOBILE: Dropdown ── */}
+          <div className="relative w-full sm:hidden" role="listbox" aria-label="Select gallery category">
+            <button
+              type="button"
+              onClick={() => setDropdownOpen((prev) => !prev)}
+              data-cursor="link"
+              aria-haspopup="listbox"
+              aria-expanded={dropdownOpen}
+              className="w-full flex items-center justify-between px-5 py-3 rounded-2xl bg-purple-900/80 border border-amber-400/40 text-amber-300 font-bold text-sm font-sans shadow-md cursor-pointer"
+            >
+              <span>📂 {activeCategory}</span>
+              <ChevronDown
+                className={`w-5 h-5 text-amber-400 transition-transform duration-300 ${
+                  dropdownOpen ? 'rotate-180' : 'rotate-0'
+                }`}
+              />
+            </button>
+
+            <AnimatePresence>
+              {dropdownOpen && (
+                <motion.ul
+                  initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 rounded-2xl bg-purple-950 border border-amber-400/30 shadow-2xl overflow-hidden"
+                  role="listbox"
+                >
+                  {galleryCategories.map((category) => {
+                    const isActive = activeCategory === category;
+                    return (
+                      <li
+                        key={category}
+                        role="option"
+                        aria-selected={isActive}
+                        onClick={() => {
+                          setActiveCategory(category);
+                          setDropdownOpen(false);
+                        }}
+                        className={`flex items-center justify-between px-5 py-3.5 cursor-pointer text-sm font-bold font-sans transition-colors ${
+                          isActive
+                            ? 'bg-amber-500/20 text-amber-300'
+                            : 'text-slate-200 hover:bg-purple-900 hover:text-amber-300'
+                        }`}
+                      >
+                        <span>{category}</span>
+                        {isActive && <span className="w-2 h-2 rounded-full bg-amber-400 shadow-gold-glow" />}
+                      </li>
+                    );
+                  })}
+                </motion.ul>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* ── DESKTOP: Pill Buttons ── */}
+          <div className="hidden sm:flex flex-wrap items-center justify-center gap-3 w-full" role="tablist" aria-label="Gallery category filters">
             {galleryCategories.map((category) => {
               const isActive = activeCategory === category;
               return (
